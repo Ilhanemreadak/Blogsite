@@ -8,11 +8,7 @@ namespace Blog.Core.Entities
 {
     public abstract class EntityBase : IEntityBase
     {
-        public EntityBase() {
-            Id = Guid.NewGuid();
-            CreatedDate = DateTime.Now;
-        }
-        public virtual Guid Id { get; set; }
+        public virtual Guid Id { get; set; } = Guid.NewGuid();
         public virtual string CreatedBy { get; set; } = "Undefined";
         public virtual string? ModifiedBy { get; set; }
         public virtual string? DeletedBy { get; set; }
