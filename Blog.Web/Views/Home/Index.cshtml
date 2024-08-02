@@ -1,0 +1,21 @@
+﻿@model             List<Blog.Entity.ViewModels.Articles.VMArticle>
+
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+
+@foreach (var article in Model)
+{
+    <h1>@article.Title</h1> <br />
+   // <h3>@article.Content</h3>
+    <h3>@article.CreatedBy</h3>
+    <br />
+    <br />
+}
