@@ -4,6 +4,7 @@ using Blog.Entity.Entities;
 using Blog.Service.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using NToastNotify;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +13,13 @@ builder.Services.LoadDataLayerExtension(builder.Configuration);
 builder.Services.LoadServiceLayerExtension();
 builder.Services.AddSession();
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddNToastNotifyToastr(new ToastrOptions()
+    {
+        PositionClass = ToastPositions.BottomRight,
+        TimeOut = 3000,
+    })
+    .AddRazorRuntimeCompilation();
 
 
 builder.Services.AddIdentity<AppUser, AppRole>(opt =>       //Reele geçirirken bunu kaldýr
@@ -41,9 +48,6 @@ builder.Services.ConfigureApplicationCookie(config =>
     config.ExpireTimeSpan = TimeSpan.FromHours(3);
     config.AccessDeniedPath = new PathString("/Admin/Auth/AccessDenied");
 });
-
-
-
 
 var app = builder.Build();
 
