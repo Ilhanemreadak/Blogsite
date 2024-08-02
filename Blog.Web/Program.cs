@@ -3,15 +3,14 @@ using Blog.Data.Extensions;
 using Blog.Entity.Entities;
 using Blog.Service.Extensions;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using NToastNotify;
-using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.LoadDataLayerExtension(builder.Configuration);
 builder.Services.LoadServiceLayerExtension();
 builder.Services.AddSession();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews()
     .AddNToastNotifyToastr(new ToastrOptions()
@@ -59,6 +58,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseNToastNotify();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 

@@ -3,6 +3,11 @@ using Blog.Entity.Entities;
 using Blog.Entity.ViewModels.Articles;
 using Blog.Service.Services.Abstractions;
 using AutoMapper;
+using Microsoft.AspNetCore.Html;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using Blog.Service.Extensions;
+using Microsoft.AspNetCore.Identity;
 
 namespace Blog.Service.Services.Concrete
 {
@@ -10,17 +15,24 @@ namespace Blog.Service.Services.Concrete
     {
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
-        public ArticleService(IUnitOfWork unitOfWork, IMapper mapper) {
+        private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly ClaimsPrincipal _user;
+
+        public ArticleService(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor) {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
+            this.httpContextAccessor = httpContextAccessor;
+            _user = httpContextAccessor.HttpContext.User;
         }
 
         public async Task CreateArticleAsync(VMArticleAdd vmArticleAdd)
         {
-            var userId = Guid.Parse("C118D34E-5077-4F02-8C68-6BFBC61A4DF0");
+            var userId = _user.GetLoggedInUserId();
+            var useremail = _user.GetLoggedInEmail();
+
             var imageId = Guid.Parse("d20eeb5b-2979-4068-a91f-42ebf3b9b03e");
 
-            var article = new Article(vmArticleAdd.Title, vmArticleAdd.Content, userId, vmArticleAdd.CategoryId, imageId);
+            var article = new Article(vmArticleAdd.Title, vmArticleAdd.Content, userId, useremail, vmArticleAdd.CategoryId, imageId);
           
             await unitOfWork.GetRepository<Article>().AddAsync(article);
             await unitOfWork.SaveAsync();
@@ -49,6 +61,9 @@ namespace Blog.Service.Services.Concrete
             article.Title = vmArticleUpdate.Title;
             article.Content = vmArticleUpdate.Content;
             article.CategoryId = vmArticleUpdate.CategoryId;
+            article.ModifiedDate = DateTime.Now;
+            article.ModifiedBy = _user.GetLoggedInEmail();
+
 
             await unitOfWork.GetRepository<Article>().UpdateAsync(article);
             await unitOfWork.SaveAsync();
@@ -61,6 +76,7 @@ namespace Blog.Service.Services.Concrete
             var article = await unitOfWork.GetRepository<Article>().GetByGuidAsync(articleId);
             article.IsDeleted = true;
             article.DeletedDate = DateTime.Now;
+            article.DeletedBy = _user.GetLoggedInEmail();
 
             await unitOfWork.GetRepository<Article>().UpdateAsync(article);
             await unitOfWork.SaveAsync();
