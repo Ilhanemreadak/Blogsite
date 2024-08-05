@@ -10,6 +10,10 @@ namespace Blog.Service.Services.Abstractions
 {
     public interface ICategoryService
     {
-        public Task<List<VMCategory>> GetAllCategoriesNonDeleted();
+        Task<List<VMCategory>> GetAllCategoriesNonDeleted();
+        Task CreateCategoryAsync(VMCategoryAdd vmCategoryAdd);
+        Task<Category> GetCategoryByGuid(Guid id);
+        Task<string> UpdateCategoryAsync(VMCategoryUpdate vmCategoryUpdate);
+        Task<string> SafeDeleteCategoryAsync(Guid categoryId);
     }
 }
