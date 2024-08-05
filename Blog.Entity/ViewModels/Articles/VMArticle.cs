@@ -1,4 +1,5 @@
-﻿using Blog.Entity.ViewModels.Categories;
+﻿using Blog.Entity.Entities;
+using Blog.Entity.ViewModels.Categories;
 
 namespace Blog.Entity.ViewModels.Articles
 {
@@ -9,6 +10,7 @@ namespace Blog.Entity.ViewModels.Articles
         public string Content { get; set; }
         public VMCategory Category { get; set; }
         public DateTime CreatedDate { get; set; }
+        public Image Image { get; set; }
         public string CreatedBy { get; set; }
         public bool IsDeleted { get; set; }
     }

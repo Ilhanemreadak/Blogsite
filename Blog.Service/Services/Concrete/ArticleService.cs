@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Blog.Service.Extensions;
 using Microsoft.AspNetCore.Identity;
+using Blog.Service.Helpers.Images;
+using Blog.Entity.Enums;
 
 namespace Blog.Service.Services.Concrete
 {
@@ -16,12 +18,14 @@ namespace Blog.Service.Services.Concrete
         private readonly IUnitOfWork unitOfWork;
         private readonly IMapper mapper;
         private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IImageHelper imageHelper;
         private readonly ClaimsPrincipal _user;
 
-        public ArticleService(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor) {
+        public ArticleService(IUnitOfWork unitOfWork, IMapper mapper, IHttpContextAccessor httpContextAccessor, IImageHelper imageHelper) {
             this.unitOfWork = unitOfWork;
             this.mapper = mapper;
             this.httpContextAccessor = httpContextAccessor;
+            this.imageHelper = imageHelper;
             _user = httpContextAccessor.HttpContext.User;
         }
 
@@ -30,9 +34,11 @@ namespace Blog.Service.Services.Concrete
             var userId = _user.GetLoggedInUserId();
             var useremail = _user.GetLoggedInEmail();
 
-            var imageId = Guid.Parse("d20eeb5b-2979-4068-a91f-42ebf3b9b03e");
+            var imageUpload = await imageHelper.Upload(vmArticleAdd.Title, vmArticleAdd.Photo, ImageType.Post);
+            Image image = new(imageUpload.FullName, vmArticleAdd.Photo.ContentType, useremail);
+            await unitOfWork.GetRepository<Image>().AddAsync(image);
 
-            var article = new Article(vmArticleAdd.Title, vmArticleAdd.Content, userId, useremail, vmArticleAdd.CategoryId, imageId);
+            var article = new Article(vmArticleAdd.Title, vmArticleAdd.Content, userId, useremail, vmArticleAdd.CategoryId, image.Id);
           
             await unitOfWork.GetRepository<Article>().AddAsync(article);
             await unitOfWork.SaveAsync();
@@ -49,20 +55,34 @@ namespace Blog.Service.Services.Concrete
         }
         public async Task<VMArticle> GetArticlesWithCategoryNonDeletedAsync(Guid articleId)
         {
-            var article = await unitOfWork.GetRepository<Article>().GetAsync(x => !x.IsDeleted & x.Id == articleId, x => x.Category);
+            var article = await unitOfWork.GetRepository<Article>().GetAsync(x => !x.IsDeleted & x.Id == articleId, x => x.Category, i => i.Image);
             var map = mapper.Map<VMArticle>(article);
 
             return map;
         }
         public async Task<string> UpdateArticleAsync(VMArticleUpdate vmArticleUpdate)
         {
-            var article = await unitOfWork.GetRepository<Article>().GetAsync(x => !x.IsDeleted & x.Id == vmArticleUpdate.Id, x => x.Category);
+            var useremail = _user.GetLoggedInEmail();
+            var article = await unitOfWork.GetRepository<Article>().GetAsync(x => !x.IsDeleted & x.Id == vmArticleUpdate.Id, x => x.Category, i => i.Image);
+
+            if(vmArticleUpdate.Photo != null)
+            {
+                imageHelper.Delete(article.Image.FileName);
+
+                var imageUpload = await imageHelper.Upload(vmArticleUpdate.Title, vmArticleUpdate.Photo, ImageType.Post);
+                Image image = new(imageUpload.FullName, vmArticleUpdate.Photo.ContentType, useremail);
+                await unitOfWork.GetRepository<Image>().AddAsync(image);
+
+                article.ImageId = image.Id;
+            }
+
+
             
             article.Title = vmArticleUpdate.Title;
             article.Content = vmArticleUpdate.Content;
             article.CategoryId = vmArticleUpdate.CategoryId;
             article.ModifiedDate = DateTime.Now;
-            article.ModifiedBy = _user.GetLoggedInEmail();
+            article.ModifiedBy = useremail;
 
 
             await unitOfWork.GetRepository<Article>().UpdateAsync(article);

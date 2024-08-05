@@ -24,40 +24,6 @@ namespace Blog.Service.Helpers.Images
             wwwroot = env.WebRootPath;
         }
 
-        public async Task<VMImageUploded> Upload(string name, IFormFile imageFile, ImageType imageType, string folderName = null)
-        {
-            folderName ??= imageType == ImageType.User ? userImagesFolder : articleImagesFolder;
-
-            if (!Directory.Exists($"{wwwroot}/{imgFolder}/{folderName}"))
-            {
-                Directory.CreateDirectory($"{wwwroot}/{imgFolder}/{folderName}");
-
-                string oldFileName = Path.GetFileNameWithoutExtension(imageFile.FileName);
-                string fileExtension = Path.GetExtension(imageFile.FileName);
-
-                name = ReplaceInvalidChars(name);
-
-                DateTime dateTime = DateTime.Now;
-
-                string newFileName = $"{name}_{dateTime.Millisecond}{fileExtension}";
-
-                var path = Path.Combine($"{wwwroot}/{imgFolder}/{folderName}", newFileName);
-
-                await using var stream = new FileStream(path,FileMode.Create, FileAccess.Write, FileShare.None, 1024*1024, useAsync: false);
-                await imageFile.CopyToAsync(stream);
-                await stream.FlushAsync();
-
-                string message = imageType == ImageType.User 
-                    ? $"{newFileName} isimli kullanıcı resmi başarıyla eklenmiiştir." 
-                    : $"{newFileName} isimli makale resmi başarıyla eklenmiştir.";
-
-                return new VMImageUploded()
-                {
-                    FullName = $"{folderName}/{newFileName}"
-                };
-            }
-        }
-
         private string ReplaceInvalidChars(string fileName)
         {
             return fileName.Replace("İ", "I")
@@ -108,6 +74,38 @@ namespace Blog.Service.Helpers.Images
                  .Replace(".", "")
                  .Replace(":", "")
                  .Replace(" ", "");
+        }
+
+        public async Task<VMImageUploded> Upload(string name, IFormFile imageFile, ImageType imageType, string folderName = null)
+        {
+            folderName ??= imageType == ImageType.User ? userImagesFolder : articleImagesFolder;
+
+            if (!Directory.Exists($"{wwwroot}/{imgFolder}/{folderName}"))
+                Directory.CreateDirectory($"{wwwroot}/{imgFolder}/{folderName}");
+
+            string oldFileName = Path.GetFileNameWithoutExtension(imageFile.FileName);
+            string fileExtension = Path.GetExtension(imageFile.FileName);
+
+            name = ReplaceInvalidChars(name).ToLower();
+
+            DateTime dateTime = DateTime.Now;
+
+            string newFileName = $"{name}_{dateTime.Millisecond}{fileExtension}";
+
+            var path = Path.Combine($"{wwwroot}/{imgFolder}/{folderName}", newFileName);
+
+            await using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024, useAsync: false);
+            await imageFile.CopyToAsync(stream);
+            await stream.FlushAsync();
+
+            string message = imageType == ImageType.User
+                ? $"{newFileName} isimli kullanıcı resmi başarıyla eklenmiiştir."
+                : $"{newFileName} isimli makale resmi başarıyla eklenmiştir.";
+
+            return new VMImageUploded()
+            {
+                FullName = $"{folderName}/{newFileName}"
+            };
         }
 
         public void Delete(string imageName)
