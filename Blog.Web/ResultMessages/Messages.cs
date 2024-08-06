@@ -17,23 +17,31 @@
             {
                 return $"{articleTitle} başlıklı makale başarıyla silinmiştir. ";
             }
+            public static string UndoDelete(string articleTitle)
+            {
+                return $"{articleTitle} başlıklı makale başarıyla geri alınmştır. ";
+            }
         }
 
         public static class Category
         {
             public static string Add(string categoryName)
             {
-                return $"{categoryName} başlıklı kategori başarıyla eklenmiştir. ";
+                return $"{categoryName} isimli kategori başarıyla eklenmiştir. ";
             }
 
             public static string Update(string categoryName)
             {
-                return $"{categoryName} başlıklı kategori başarıyla güncellenmiştir. ";
+                return $"{categoryName} isimli kategori başarıyla güncellenmiştir. ";
             }
 
             public static string Delete(string categoryName)
             {
-                return $"{categoryName} başlıklı kategori başarıyla silinmiştir. ";
+                return $"{categoryName} isimli kategori başarıyla silinmiştir. ";
+            }
+            public static string UndoDelete(string categoryName)
+            {
+                return $"{categoryName} isimli kategori başarıyla geri alınmştır. ";
             }
         }
 
