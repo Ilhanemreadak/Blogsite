@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Content Remove="Areas\Admin\Views\Article\DeletedArticles.cshtml" />
+    <Content Remove="Areas\Admin\Views\Auth\AccessDenied.cshtml" />
     <Content Remove="Areas\Admin\Views\Category\DeletedCategories.cshtml" />
   </ItemGroup>
 
@@ -40,6 +41,7 @@
 
   <ItemGroup>
     <None Include="Areas\Admin\Views\Article\DeletedArticles.cshtml" />
+    <None Include="Areas\Admin\Views\Auth\AccessDenied.cshtml" />
     <None Include="Areas\Admin\Views\Category\DeletedCategories.cshtml" />
   </ItemGroup>
 
