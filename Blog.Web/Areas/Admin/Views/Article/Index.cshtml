@@ -1,4 +1,6 @@
-﻿@model  List<Blog.Entity.ViewModels.Articles.VMArticle>
+﻿@using Blog.Web.Consts
+@model  List<Blog.Entity.ViewModels.Articles.VMArticle>
+  
 
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4">
@@ -9,7 +11,7 @@
         <div class="table-responsive text-nowrap m-5">
 
             @{
-                @if(!User.IsInRole("User"))
+                @if (!User.IsInRole($"{RoleConsts.Role3}"))
                 {
                     <a class="btn btn-outline-primary mb-4" asp-area="Admin" asp-controller="Article" asp-action="Add">
                         Makale Ekle   <i class="bx bx-plus"></i>
@@ -26,7 +28,7 @@
                         <th>Oluşturan</th>
                         <th>Durum</th>
                         @{
-                            @if (!User.IsInRole("User"))
+                            @if (!User.IsInRole($"{RoleConsts.Role3}"))
                             {
                                 <th>İşlemler</th>
                             }
@@ -41,7 +43,7 @@
                         <th>Oluşturan</th>
                         <th>Durum</th>
                         @{
-                            @if (!User.IsInRole("User"))
+                            @if (!User.IsInRole($"{RoleConsts.Role3}"))
                             {
                                 <th>İşlemler</th>
                             }
@@ -59,7 +61,7 @@
                             <td>@(article.IsDeleted ? "Aktif Değil" : "Aktif")</td>
 
                             @{
-                                @if (!User.IsInRole("User"))
+                                @if (!User.IsInRole($"{RoleConsts.Role3}"))
                                 {
                                     <td>
                                         <a class="btn btn-outline-primary" data-id="@article.Id" asp-area="Admin" asp-controller="Article" asp-action="Update" asp-route-articleId="@article.Id">
