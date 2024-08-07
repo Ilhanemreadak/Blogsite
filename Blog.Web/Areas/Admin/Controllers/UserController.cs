@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
+using Blog.Data.UnitOfWorks;
 using Blog.Entity.Entities;
+using Blog.Entity.Enums;
 using Blog.Entity.ViewModels.Articles;
 using Blog.Entity.ViewModels.Users;
 using Blog.Service.Extensions;
+using Blog.Service.Helpers.Images;
 using Blog.Web.ResultMessages;
 using FluentValidation;
 using Microsoft.AspNetCore.Identity;
@@ -21,14 +24,20 @@ namespace Blog.Web.Areas.Admin.Controllers
         private readonly RoleManager<AppRole> roleManager;
         private readonly IMapper mapper;
         private readonly IValidator<AppUser> validator;
+        private readonly IUnitOfWork unitOfWork;
+        private readonly IImageHelper imageHelper;
+        private readonly SignInManager<AppUser> signInManager;
         private readonly IToastNotification toast;
 
-        public UserController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IMapper mapper, IValidator<AppUser> validator, IToastNotification toast)
+        public UserController(UserManager<AppUser> userManager, RoleManager<AppRole> roleManager, IMapper mapper, IValidator<AppUser> validator, IUnitOfWork unitOfWork, IImageHelper imageHelper, SignInManager<AppUser> signInManager, IToastNotification toast)
         {
             this.userManager = userManager;
             this.roleManager = roleManager;
             this.mapper = mapper;
             this.validator = validator;
+            this.unitOfWork = unitOfWork;
+            this.imageHelper = imageHelper;
+            this.signInManager = signInManager;
             this.toast = toast;
         }
 
@@ -155,7 +164,85 @@ namespace Blog.Web.Areas.Admin.Controllers
             }
             return NotFound();
 
+        }
+        [HttpGet]
+        public async Task<IActionResult> Profile()
+        {
+            var user = await userManager.GetUserAsync(HttpContext.User);
+            var getImage = await unitOfWork.GetRepository<AppUser>().GetAsync(x => x.Id == user.Id, x => x.Image);
+            var map = mapper.Map<VMUserProfile>(user);
+            map.Image.FileName = getImage.Image.FileName;
 
+            return View(map);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Profile(VMUserProfile vmUserProfile)
+        {
+            var user = await userManager.GetUserAsync(HttpContext.User);
+            if (ModelState.IsValid) 
+            {
+                var isVerified = await userManager.CheckPasswordAsync(user, vmUserProfile.CurrentPassword);
+                if (isVerified && vmUserProfile.NewPassword !=null && vmUserProfile.Photo != null) 
+                {
+                    var result = await userManager.ChangePasswordAsync(user, vmUserProfile.CurrentPassword, vmUserProfile.NewPassword);
+                    if (result.Succeeded)
+                    {
+                        await userManager.UpdateSecurityStampAsync(user);
+                        await signInManager.SignOutAsync();
+                        await signInManager.PasswordSignInAsync(user, vmUserProfile.NewPassword, true, false);
+
+                        user.FirstName = vmUserProfile.FirstName;
+                        user.LastName = vmUserProfile.LastName;
+                        user.PhoneNumber = vmUserProfile.PhoneNumber;
+
+                        var imageUpload = await imageHelper.Upload($"{vmUserProfile.FirstName}{vmUserProfile.LastName}", vmUserProfile.Photo, ImageType.User);
+                        Image image = new(imageUpload.FullName, vmUserProfile.Photo.ContentType, user.Email);
+                        await unitOfWork.GetRepository<Image>().AddAsync(image);
+
+                        user.ImageId = image.Id;
+
+                        await userManager.UpdateAsync(user);
+
+                        await unitOfWork.SaveAsync();
+
+                        toast.AddSuccessToastMessage("Bilgileriniz ve şifreniz başarıyla güncellenmiştir.");
+                        return RedirectToAction("Index", "User", new { Area = "Admin" });
+                    }
+                    else
+                    {
+                        result.AddToIdentityModelState(ModelState);
+                        return RedirectToAction("Index", "User", new { Area = "Admin" });
+                    }
+                }
+                else if(isVerified && vmUserProfile.Photo != null)
+                {
+                    await userManager.UpdateSecurityStampAsync(user);
+
+                    user.FirstName = vmUserProfile.FirstName;
+                    user.LastName = vmUserProfile.LastName;
+                    user.PhoneNumber = vmUserProfile.PhoneNumber;
+
+                    var imageUpload = await imageHelper.Upload($"{vmUserProfile.FirstName} {vmUserProfile.LastName}", vmUserProfile.Photo, ImageType.User);
+                    Image image = new(imageUpload.FullName, vmUserProfile.Photo.ContentType, user.Email);
+                    await unitOfWork.GetRepository<Image>().AddAsync(image);
+
+                    user.ImageId = image.Id;
+
+                    await userManager.UpdateAsync(user);
+                    await unitOfWork.SaveAsync();
+
+                    toast.AddSuccessToastMessage("Bilgileriniz başarıyla güncellenmiştir.");
+                    return RedirectToAction("Index", "User", new { Area = "Admin" });
+                }
+                else
+                {
+                    toast.AddErrorToastMessage("Bilgileriniz güncellenirken bir hata oluştu.");
+                    return RedirectToAction("Index", "User", new { Area = "Admin" });
+                }
+            }
+
+            return View();
         }
 
     }
