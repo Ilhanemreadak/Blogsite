@@ -22,26 +22,16 @@ namespace Blog.Web.Areas.Admin.Controllers
     [Area("Admin")]
     public class UserController : Controller
     {
-        private readonly UserManager<AppUser> userManager;
         private readonly IUserService userService;
-        private readonly RoleManager<AppRole> roleManager;
         private readonly IMapper mapper;
         private readonly IValidator<AppUser> validator;
-        private readonly IUnitOfWork unitOfWork;
-        private readonly IImageHelper imageHelper;
-        private readonly SignInManager<AppUser> signInManager;
         private readonly IToastNotification toast;
 
-        public UserController(UserManager<AppUser> userManager, IUserService userService, RoleManager<AppRole> roleManager, IMapper mapper, IValidator<AppUser> validator, IUnitOfWork unitOfWork, IImageHelper imageHelper, SignInManager<AppUser> signInManager, IToastNotification toast)
+        public UserController( IUserService userService, IMapper mapper, IValidator<AppUser> validator, IToastNotification toast)
         {
-            this.userManager = userManager;
             this.userService = userService;
-            this.roleManager = roleManager;
             this.mapper = mapper;
             this.validator = validator;
-            this.unitOfWork = unitOfWork;
-            this.imageHelper = imageHelper;
-            this.signInManager = signInManager;
             this.toast = toast;
         }
 
