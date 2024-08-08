@@ -154,81 +154,35 @@ namespace Blog.Web.Areas.Admin.Controllers
         [HttpGet]
         public async Task<IActionResult> Profile()
         {
-            var user = await userManager.GetUserAsync(HttpContext.User);
-            var getImage = await unitOfWork.GetRepository<AppUser>().GetAsync(x => x.Id == user.Id, x => x.Image);
-            var map = mapper.Map<VMUserProfile>(user);
-            map.Image.FileName = getImage.Image.FileName;
-
-            return View(map);
+            var profile = await userService.GetUserProfileAsync();
+            return View(profile);
         }
 
         [HttpPost]
         public async Task<IActionResult> Profile(VMUserProfile vmUserProfile)
         {
-            var user = await userManager.GetUserAsync(HttpContext.User);
             if (ModelState.IsValid) 
             {
-                var isVerified = await userManager.CheckPasswordAsync(user, vmUserProfile.CurrentPassword);
-                if (isVerified && vmUserProfile.NewPassword !=null && vmUserProfile.Photo != null) 
-                {
-                    var result = await userManager.ChangePasswordAsync(user, vmUserProfile.CurrentPassword, vmUserProfile.NewPassword);
-                    if (result.Succeeded)
-                    {
-                        await userManager.UpdateSecurityStampAsync(user);
-                        await signInManager.SignOutAsync();
-                        await signInManager.PasswordSignInAsync(user, vmUserProfile.NewPassword, true, false);
+               var result = await userService.UserProfileUpdateAsync(vmUserProfile);
+               if (result)
+               {
+                   toast.AddSuccessToastMessage("Profile güncelleme işleme başarıyla tamamlanmıştır.", new ToastrOptions() { Title = "İşlem Başarılı!" });
+                   return RedirectToAction("Index", "Home", new { Area = "Admin" });
+               }
+               else
+               {
+                    var profile = await userService.GetUserProfileAsync();
+                    toast.AddErrorToastMessage("Profil güncelleme işlemi sırasında bir hatayla karşılaşılmıştır.", new ToastrOptions() { Title = "İşlem Başarısız !" });
+                    return View(profile);
+               }
 
-                        user.FirstName = vmUserProfile.FirstName;
-                        user.LastName = vmUserProfile.LastName;
-                        user.PhoneNumber = vmUserProfile.PhoneNumber;
-
-                        var imageUpload = await imageHelper.Upload($"{vmUserProfile.FirstName}{vmUserProfile.LastName}", vmUserProfile.Photo, ImageType.User);
-                        Image image = new(imageUpload.FullName, vmUserProfile.Photo.ContentType, user.Email);
-                        await unitOfWork.GetRepository<Image>().AddAsync(image);
-
-                        user.ImageId = image.Id;
-
-                        await userManager.UpdateAsync(user);
-
-                        await unitOfWork.SaveAsync();
-
-                        toast.AddSuccessToastMessage("Bilgileriniz ve şifreniz başarıyla güncellenmiştir.");
-                        return RedirectToAction("Index", "User", new { Area = "Admin" });
-                    }
-                    else
-                    {
-                        result.AddToIdentityModelState(ModelState);
-                        return RedirectToAction("Index", "User", new { Area = "Admin" });
-                    }
-                }
-                else if(isVerified && vmUserProfile.Photo != null)
-                {
-                    await userManager.UpdateSecurityStampAsync(user);
-
-                    user.FirstName = vmUserProfile.FirstName;
-                    user.LastName = vmUserProfile.LastName;
-                    user.PhoneNumber = vmUserProfile.PhoneNumber;
-
-                    var imageUpload = await imageHelper.Upload($"{vmUserProfile.FirstName} {vmUserProfile.LastName}", vmUserProfile.Photo, ImageType.User);
-                    Image image = new(imageUpload.FullName, vmUserProfile.Photo.ContentType, user.Email);
-                    await unitOfWork.GetRepository<Image>().AddAsync(image);
-
-                    user.ImageId = image.Id;
-
-                    await userManager.UpdateAsync(user);
-                    await unitOfWork.SaveAsync();
-
-                    toast.AddSuccessToastMessage("Bilgileriniz başarıyla güncellenmiştir.");
-                    return RedirectToAction("Index", "User", new { Area = "Admin" });
-                }
-                else
-                {
-                    toast.AddErrorToastMessage("Bilgileriniz güncellenirken bir hata oluştu.");
-                    return RedirectToAction("Index", "User", new { Area = "Admin" });
-                }
             }
-
-            return View();
+            else
+            {
+                
+                return NotFound();
+            }
+                
         }
 
     }
