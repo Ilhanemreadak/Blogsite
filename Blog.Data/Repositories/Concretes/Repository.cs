@@ -50,6 +50,11 @@ namespace Blog.Data.Repositories.Concretes
             return entity;
         }
 
+        public async Task<T> GetByIdAsync(int id)
+        {
+            return await Table.FindAsync(id);
+        }
+
         public async Task<T> GetByGuidAsync(Guid id)
         {
             return await Table.FindAsync(id);

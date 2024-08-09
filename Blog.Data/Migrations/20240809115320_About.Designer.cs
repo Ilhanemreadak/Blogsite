@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blog.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240731105339_Init")]
-    partial class Init
+    [Migration("20240809115320_About")]
+    partial class About
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,27 @@ namespace Blog.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("Blog.Entity.Entities.About", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("About");
+                });
 
             modelBuilder.Entity("Blog.Entity.Entities.AppRole", b =>
                 {
@@ -56,21 +77,21 @@ namespace Blog.Data.Migrations
                         new
                         {
                             Id = new Guid("14269f97-e34f-44f0-8f09-165e17058617"),
-                            ConcurrencyStamp = "3d6f2dab-70a8-46e8-b9f5-26d88cc1abe7",
+                            ConcurrencyStamp = "732fa30a-e345-4ae1-bddd-7d8e5d40f886",
                             Name = "SuperAdmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = new Guid("1928a271-274d-43de-bf56-45b195ca0e59"),
-                            ConcurrencyStamp = "b1ced820-bc8e-41b4-b148-5953bbb4479a",
+                            ConcurrencyStamp = "914b2d02-42d9-45e9-b9db-517c3319b98c",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = new Guid("d7eb6dcf-e203-4388-beaa-95caa126d718"),
-                            ConcurrencyStamp = "3b50ba63-f766-4964-93a7-46de7237a1cd",
+                            ConcurrencyStamp = "72a6a52a-b757-4bdc-82d3-05f984f01ac6",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -184,7 +205,7 @@ namespace Blog.Data.Migrations
                         {
                             Id = new Guid("c118d34e-5077-4f02-8c68-6bfbc61a4df0"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "46fd6457-e98c-4046-9550-c7f93c0bc9a1",
+                            ConcurrencyStamp = "a9a6d844-3f1f-43da-828d-880b31b31658",
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Ilhan Emre",
@@ -193,10 +214,10 @@ namespace Blog.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOZdcqtdf7N0Vu3VAB0xUS/Rlcx+VfA9xqUX/cMoNSO0NIl4Ky3duqcfciQGiF/TyQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFESl4GaQjDaq6NyxxYggqGSBiDMSO4jRAQ7R+IIh9+bxVcW7X0EvyD0t7dh4w/izw==",
                             PhoneNumber = "+905419999999",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "6103ae08-d4fe-4931-9be4-bd3c67c33727",
+                            SecurityStamp = "bdc6d7bd-fede-4b8e-82e0-23e4e403fbe3",
                             TwoFactorEnabled = false,
                             UserName = "superadmin@gmail.com"
                         },
@@ -204,7 +225,7 @@ namespace Blog.Data.Migrations
                         {
                             Id = new Guid("20978c52-0503-4800-a4b5-68927e3d1ee0"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "327b22b4-fe62-4515-a716-d7e23f745963",
+                            ConcurrencyStamp = "d6325670-7ed1-4488-ba31-8ea67e38fd4f",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -213,10 +234,10 @@ namespace Blog.Data.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEMuavBXJqQha0YR6JK0TZkAs3zz18VXWTrEXQSyfqyK/KFKaXUm2BH45GeMZ4UDJnA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOihZme4UOO3H6igxwIFOACgxlsXXKVfpz2Da/QwM9JtJfDF795ZOJmOlk3b31fw9Q==",
                             PhoneNumber = "+905418888888",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "db23c801-2b96-4487-b16a-3e20e448f5f3",
+                            SecurityStamp = "9960a286-9077-49e8-ba58-5ab34507250f",
                             TwoFactorEnabled = false,
                             UserName = "admin@gmail.com"
                         });
@@ -443,7 +464,7 @@ namespace Blog.Data.Migrations
                         {
                             Id = new Guid("63afd642-3fee-4c23-bb9d-8d37ee7e7310"),
                             CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2024, 7, 31, 13, 53, 38, 536, DateTimeKind.Local).AddTicks(4120),
+                            CreatedDate = new DateTime(2024, 8, 9, 14, 53, 19, 941, DateTimeKind.Local).AddTicks(2769),
                             IsDeleted = false,
                             Name = "ASP.NET Core"
                         },
@@ -451,7 +472,7 @@ namespace Blog.Data.Migrations
                         {
                             Id = new Guid("7fa8d647-9bbd-4d2f-bc80-2b5e6c16a052"),
                             CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2024, 7, 31, 13, 53, 38, 536, DateTimeKind.Local).AddTicks(4123),
+                            CreatedDate = new DateTime(2024, 8, 9, 14, 53, 19, 941, DateTimeKind.Local).AddTicks(2773),
                             IsDeleted = false,
                             Name = "Python"
                         });
@@ -502,7 +523,7 @@ namespace Blog.Data.Migrations
                         {
                             Id = new Guid("4675f9e0-085b-4a27-8d4a-c97ace6a7971"),
                             CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2024, 7, 31, 13, 53, 38, 536, DateTimeKind.Local).AddTicks(5293),
+                            CreatedDate = new DateTime(2024, 8, 9, 14, 53, 19, 941, DateTimeKind.Local).AddTicks(3682),
                             FileName = "images/test",
                             FileType = "jpg",
                             IsDeleted = false
@@ -511,7 +532,7 @@ namespace Blog.Data.Migrations
                         {
                             Id = new Guid("d20eeb5b-2979-4068-a91f-42ebf3b9b03e"),
                             CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2024, 7, 31, 13, 53, 38, 536, DateTimeKind.Local).AddTicks(5296),
+                            CreatedDate = new DateTime(2024, 8, 9, 14, 53, 19, 941, DateTimeKind.Local).AddTicks(3688),
                             FileName = "images/vstest2",
                             FileType = "png",
                             IsDeleted = false
