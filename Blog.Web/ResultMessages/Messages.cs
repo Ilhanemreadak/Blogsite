@@ -61,6 +61,12 @@
             {
                 return $"{userName} email adresli kullanıcı başarıyla silinmiştir. ";
             }
+        }public static class SocialMedia
+        {
+            public static string Update(string SocialType)
+            {
+                return $"{SocialType} bağlantınız başarıyla güncellenmiştir. ";
+            }
         }
     }
 }

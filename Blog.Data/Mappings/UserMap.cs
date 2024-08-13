@@ -47,43 +47,6 @@ namespace Blog.Data.Mappings
             // Each User can have many entries in the UserRole join table
             builder.HasMany<AppUserRole>().WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
 
-            var superadmin = new AppUser
-            {
-                Id = Guid.Parse("C118D34E-5077-4F02-8C68-6BFBC61A4DF0"),
-                UserName = "superadmin@gmail.com",
-                NormalizedUserName = "SUPERADMIN@GMAIL.COM",
-                Email = "superadmin@gmail.com",
-                NormalizedEmail = "SUPERADMIN@GMAIL.COM",
-                PhoneNumber = "+905419999999",
-                FirstName = "Ilhan Emre",
-                LastName = "ADAK",
-                PhoneNumberConfirmed = true,
-                EmailConfirmed = true,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                ImageId = Guid.Parse("4675F9E0-085B-4A27-8D4A-C97ACE6A7971")
-
-            };
-            superadmin.PasswordHash = CreatePasswordHash(superadmin, "123456*");
-
-            var admin = new AppUser
-            {
-                Id = Guid.Parse("20978C52-0503-4800-A4B5-68927E3D1EE0"),
-                UserName = "admin@gmail.com",
-                NormalizedUserName = "ADMIN@GMAIL.COM",
-                Email = "admin@gmail.com",
-                NormalizedEmail = "ADMIN@GMAIL.COM",
-                PhoneNumber = "+905418888888",
-                FirstName = "Admin",
-                LastName = "User",
-                PhoneNumberConfirmed = false,
-                EmailConfirmed = false,
-                SecurityStamp = Guid.NewGuid().ToString(),
-                ImageId = Guid.Parse("D20EEB5B-2979-4068-A91F-42EBF3B9B03E")
-            };
-            admin.PasswordHash = CreatePasswordHash(admin, "123456");
-
-            builder.HasData(superadmin, admin);
-
         }
 
         private string CreatePasswordHash(AppUser user, string password) {

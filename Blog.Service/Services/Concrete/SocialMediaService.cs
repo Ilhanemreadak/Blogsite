@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
 using Blog.Data.UnitOfWorks;
 using Blog.Entity.Entities;
+using Blog.Entity.ViewModels.Categories;
 using Blog.Entity.ViewModels.Others;
 using Blog.Service.Services.Abstractions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.Service.Services.Concrete
 {
@@ -21,10 +17,18 @@ namespace Blog.Service.Services.Concrete
             this.mapper = mapper;
         }
 
-        public async Task<SocialMedia> GetSocialMediasAsync()
+        public async Task<SocialMedia> GetSocialMediasAsync(int socialId)
         {
-            var SocialMedia = await unitOfWork.GetRepository<SocialMedia>().GetByIdAsync(1);
+            var SocialMedia = await unitOfWork.GetRepository<SocialMedia>().GetByIdAsync(socialId);
             return SocialMedia;
+        }
+
+        public async Task<List<VMSocialMedia>> GetAllSocialMedias()
+        {
+            var socials = await unitOfWork.GetRepository<SocialMedia>().GetAllAsync();
+            var map = mapper.Map<List<VMSocialMedia>>(socials);
+
+            return map;
         }
 
         public async Task CreateSocialMediaAsync(VMSocialMediaAdd vmSocialMediaAdd)
@@ -36,26 +40,25 @@ namespace Blog.Service.Services.Concrete
 
         public async Task<string> UpdateSocialMediaAsync(VMSocialMediaUpdate vmSocialMediaUpdate)
         {
-            var medias = await unitOfWork.GetRepository<SocialMedia>().GetByIdAsync(1);
+            var socialMedia = await unitOfWork.GetRepository<SocialMedia>().GetAsync(x => x.Id == vmSocialMediaUpdate.Id);
+            
+            socialMedia.Link = vmSocialMediaUpdate.Link;
 
-            medias.SocialMediaType = vmSocialMediaUpdate.SocialMediaType;
-            medias.Link = vmSocialMediaUpdate.Link;
-
-            await unitOfWork.GetRepository<SocialMedia>().UpdateAsync(medias);
+            await unitOfWork.GetRepository<SocialMedia>().UpdateAsync(socialMedia);
             await unitOfWork.SaveAsync();
 
-            return await GetSocialMediaTypeMessage(medias.SocialMediaType);
+            return GetSocialMediaTypeMessage(socialMedia.Id);
         }
 
-        private async Task<string> GetSocialMediaTypeMessage(int typeId)
+        private string GetSocialMediaTypeMessage(int typeId)
         {
-            if (typeId == 0)
+            if (typeId == 1)
                 return "LinkedIn";
-            else if (typeId == 1)
+            else if (typeId == 2)
                 return "Instagram";
-            else if (typeId == 1)
+            else if (typeId == 3)
                 return "Facebook";
-            else if (typeId == 1)
+            else if (typeId == 4)
                 return "X";
             else return "Hata";
         }

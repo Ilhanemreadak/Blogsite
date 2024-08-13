@@ -1,0 +1,52 @@
+﻿@model List<VMSocialMedia>
+
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Sosyal Medya Yönetimi /</span> Bağlantılar
+    </h4>
+
+    <div class="card">
+        <div class="table-responsive text-nowrap m-5">
+
+            <table class="table table-bordered" id="categoriesTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Sosyal Medya</th>
+                        <th>Link</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Sosyal Medya</th>
+                        <th>Link</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </tfoot>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var social in Model)
+                    {
+                        <tr name="@social.Id">
+                            <td>@social.GetTypeName()</td>
+                            <td>@social.Link</td>
+                            <td>
+                                <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="SocialMedia" asp-action="Update" asp-route-socialId="@social.Id">
+                                    <i class="bx bxs-edit"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="~/js/categoryIndex.js" type="application/ecmascript"></script>
+}
+
+
+

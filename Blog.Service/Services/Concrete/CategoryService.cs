@@ -27,7 +27,7 @@ namespace Blog.Service.Services.Concrete
         public async Task<List<VMCategory>> GetAllCategoriesNonDeleted()
         {
             var categories = await unitOfWork.GetRepository<Category>().GetAllAsync(x => !x.IsDeleted);
-            var map =  mapper.Map<List<VMCategory>>(categories);
+            var map = mapper.Map<List<VMCategory>>(categories);
 
             return map;
         }
@@ -36,7 +36,7 @@ namespace Blog.Service.Services.Concrete
             var userId = _user.GetLoggedInUserId();
             var userEmail = _user.GetLoggedInEmail();
 
-            Category category = new(vmCategoryAdd.Name,userEmail);
+            Category category = new(vmCategoryAdd.Name, userEmail);
             await unitOfWork.GetRepository<Category>().AddAsync(category);
             await unitOfWork.SaveAsync();
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Blog.Entity.Entities
 {
-    public class SocialMedia : EntityBase
+    public class SocialMedia : IEntityBase
     {
         public SocialMedia() { }
         public SocialMedia(int SocialMediaType, string Link)
@@ -18,5 +18,6 @@ namespace Blog.Entity.Entities
         public int Id { get; set; }
         public int SocialMediaType { get; set; }
         public string Link { get; set; }
+
     }
 }
