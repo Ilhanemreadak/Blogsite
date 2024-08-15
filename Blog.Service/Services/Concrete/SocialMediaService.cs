@@ -31,13 +31,6 @@ namespace Blog.Service.Services.Concrete
             return map;
         }
 
-        public async Task CreateSocialMediaAsync(VMSocialMediaAdd vmSocialMediaAdd)
-        {
-            var map = mapper.Map<SocialMedia>(vmSocialMediaAdd);
-            SocialMedia media = new(map.SocialMediaType, map.Link);
-            await unitOfWork.GetRepository<SocialMedia>().AddAsync(media);
-        }
-
         public async Task<string> UpdateSocialMediaAsync(VMSocialMediaUpdate vmSocialMediaUpdate)
         {
             var socialMedia = await unitOfWork.GetRepository<SocialMedia>().GetAsync(x => x.Id == vmSocialMediaUpdate.Id);

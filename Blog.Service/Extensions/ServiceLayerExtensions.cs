@@ -23,6 +23,7 @@ namespace Blog.Service.Extensions
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IDashboardService, DashboardService>();
             services.AddScoped<ISocialMediaService, SocialMediaService>();
+            services.AddScoped<IAboutService, AboutService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

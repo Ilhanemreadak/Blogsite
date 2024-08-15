@@ -24,25 +24,28 @@
             </div>
 
             <div class="home_social">
-                <a href="#" class="home_social-icon" data-aos="fade-down">
+                <a href="#" class="home_social-icon" data-aos="fade-down" id="socialLinksFacebook">
                     <i class="bx bxl-facebook-circle"></i>
                 </a>
                 <a href="#"
                    class="home_social-icon"
                    data-aos="fade-down"
-                   data-aos-delay="250">
+                   data-aos-delay="250"
+                   id="socialLinksInstagram">
                     <i class="bx bxl-instagram"></i>
                 </a>
                 <a href="#"
                    class="home_social-icon"
                    data-aos="fade-down"
-                   data-aos-delay="300">
+                   data-aos-delay="300"
+                   id="socialLinksX">
                     <i class="bx bxl-twitter"></i>
                 </a>
                 <a href="#"
                    class="home_social-icon"
                    data-aos="fade-down"
-                   data-aos-delay="350">
+                   data-aos-delay="350"
+                   id="socialLinksLinkedin">
                     <i class="bx bxl-linkedin"></i>
                 </a>
             </div>
@@ -64,12 +67,10 @@
                 <div>
                     <h2 class="about_subtitle"
                         data-aos="fade-down"
-                        data-aos-delay="350">
-                        Ben Gül çiçek zengin
+                        data-aos-delay="350"
+                        id="aboutTitleText">
                     </h2>
-                    <p class="about_text" data-aos="fade-down" data-aos-delay="450">
-                        Yenilikçi bir Endüstriyel Tasarımcı olarak, tasarım düşüncesini kullanarak yaratıcı çözümler üretiyorum. Teknoloji tutkumu tasarımlarıma yansıtırken, boş zamanlarımda amatör ressamlık yaparak sanatsal yönümü geliştiriyorum.
-                    </p>
+                    <p class="about_text" data-aos="fade-down" data-aos-delay="450" id="aboutDescriptionText"></p>
                 </div>
             </div>
         </section>
@@ -298,3 +299,15 @@
     </script>
 </body>
 </html>
+
+@section Scripts {
+    <script src="~/js/aboutGet.js"></script>
+    <script src="~/js/socialmediaLinks.js"></script>
+    <script>
+        var app = app || {}
+        app.Urls = app.Urls || {}
+
+        app.Urls.socialLinksUrl = "@(Url.Action("GetSocialMediaLinks", "Home"))";
+        app.Urls.aboutGetUrl = "@(Url.Action("GetAbout", "Home"))";
+    </script>
+}

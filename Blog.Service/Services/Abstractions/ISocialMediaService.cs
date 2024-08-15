@@ -13,7 +13,6 @@ namespace Blog.Service.Services.Abstractions
     {
         Task<SocialMedia> GetSocialMediasAsync(int socialId);
         Task<List<VMSocialMedia>> GetAllSocialMedias();
-        Task CreateSocialMediaAsync(VMSocialMediaAdd vmSocialMediaAdd);
         Task<string> UpdateSocialMediaAsync(VMSocialMediaUpdate vmSocialMediaUpdate);
     }
 }

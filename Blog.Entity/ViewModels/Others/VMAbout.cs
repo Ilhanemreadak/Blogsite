@@ -8,6 +8,8 @@ namespace Blog.Entity.ViewModels.Others
 {
     public class VMAbout
     {
+
+        public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
     }

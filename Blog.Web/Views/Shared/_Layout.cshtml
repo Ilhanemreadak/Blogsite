@@ -53,25 +53,29 @@
             <a href="#"
                class="footer_icon"
                data-aos="fade-down"
-               data-aos-delay="250">
+               data-aos-delay="250"
+               id="socialLinksFacebook">
                 <i class="bx bxl-facebook-circle"></i>
             </a>
             <a href="#"
                class="footer_icon"
                data-aos="fade-down"
-               data-aos-delay="350">
+               data-aos-delay="350"
+               id="socialLinksInstagram">
                 <i class="bx bxl-instagram"></i>
             </a>
             <a href="#"
                class="footer_icon"
                data-aos="fade-down"
-               data-aos-delay="450">
+               data-aos-delay="450"
+               id="socialLinksX">
                 <i class="bx bxl-twitter"></i>
             </a>
             <a href="#"
                class="footer_icon"
                data-aos="fade-down"
-               data-aos-delay="550">
+               data-aos-delay="550"
+               id="socialLinksLinkedin">
                 <i class="bx bxl-linkedin"></i>
             </a>
         </div>
@@ -89,3 +93,13 @@
 
 </body>
 </html>
+
+@section Scripts {
+    <script src="~/js/socialmediaLinks.js"></script>
+    <script>
+        var app = app || {}
+        app.Urls = app.Urls || {}
+
+        app.Urls.socialLinksUrl = "@(Url.Action("GetSocialMediaLinks", "Home"))";
+    </script>
+}

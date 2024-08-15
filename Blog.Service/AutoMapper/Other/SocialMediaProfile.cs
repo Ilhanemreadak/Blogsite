@@ -16,7 +16,6 @@ namespace Blog.Service.AutoMapper.Other
         {
             CreateMap<SocialMedia, VMSocialMedia>().ReverseMap();
             CreateMap<SocialMedia, VMSocialMediaUpdate>().ReverseMap();
-            CreateMap<SocialMedia, VMSocialMediaAdd>().ReverseMap();
         }
         
     }

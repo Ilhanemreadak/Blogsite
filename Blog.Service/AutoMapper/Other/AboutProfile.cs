@@ -14,7 +14,6 @@ namespace Blog.Service.AutoMapper.Other
         public AboutProfile()
         {
             CreateMap<About, VMAbout>().ReverseMap();
-            CreateMap<About, VMAboutAdd>().ReverseMap();
             CreateMap<About, VMAboutUpdate>().ReverseMap();
         }
     }

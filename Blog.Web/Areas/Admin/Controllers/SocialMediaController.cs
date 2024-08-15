@@ -1,16 +1,12 @@
 ﻿using AutoMapper;
-using Blog.Data.UnitOfWorks;
 using Blog.Entity.Entities;
-using Blog.Entity.ViewModels.Categories;
 using Blog.Entity.ViewModels.Others;
 using Blog.Service.Extensions;
 using Blog.Service.Services.Abstractions;
-using Blog.Service.Services.Concrete;
 using Blog.Web.ResultMessages;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using NToastNotify;
-using System.ComponentModel.DataAnnotations;
 
 namespace Blog.Web.Areas.Admin.Controllers
 {
@@ -37,7 +33,7 @@ namespace Blog.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Update(int socialId)  // Change socialId to id for consistency
+        public async Task<IActionResult> Update(int socialId)
         {
             var socialMedia = await socialMediaService.GetSocialMediasAsync(socialId);
             var map = mapper.Map<SocialMedia, VMSocialMediaUpdate>(socialMedia);
