@@ -29,6 +29,31 @@ namespace Blog.Service.Services.Concrete
             this.imageHelper = imageHelper;
         }
 
+        public async Task<VMArticleList> GetAllByPagingAsync(Guid? categoryId, int currentPage=1, int pageSize = 6, bool isAscending = false)
+        {
+
+            pageSize = pageSize > 20 ? 20 : pageSize;
+
+            var articles = categoryId == null
+                ? await unitOfWork.GetRepository<Article>().GetAllAsync(a => !a.IsDeleted, a => a.Category, i => i.Image)
+                : await unitOfWork.GetRepository<Article>().GetAllAsync(a => a.CategoryId == categoryId && !a.IsDeleted, x => x.Category, i => i.Image);
+
+            var sortedArticles = isAscending
+                ? articles.OrderBy(x => x.CreatedDate).Skip((currentPage - 1) * pageSize).Take(pageSize).ToList()
+                : articles.OrderByDescending(x => x.CreatedDate).Skip((currentPage - 1) * pageSize).Take(pageSize).ToList();
+
+            return new VMArticleList
+            {
+                Articles = sortedArticles,
+                CategoryId = categoryId == null ? null : categoryId.Value,
+                CurrentPage = currentPage,
+                PageSize = pageSize,
+                TotalCount = articles.Count,
+                IsAscending = isAscending
+            };
+
+        }
+
         public async Task CreateArticleAsync(VMArticleAdd vmArticleAdd)
         {
             var userId = _user.GetLoggedInUserId();

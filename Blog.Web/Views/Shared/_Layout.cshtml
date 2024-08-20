@@ -4,7 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Blog.Web</title>
+    <link rel="stylesheet" href="~/assets/css/styles.css" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/assets/css/styles.css" />
+    <link rel="stylesheet"
+          href="https://unpkg.com/boxicons@latest/css/boxicons.min.css" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link rel="stylesheet" href="~/assets/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Blog.Web.styles.css" asp-append-version="true" />
 </head>
@@ -25,7 +30,7 @@
                         <a href="#about" class="nav_link active">Hakkımda</a>
                     </li>
                     <li class="nav_items">
-                        <a href="#work" class="nav_link active">Makaleler</a>
+                        <a asp-controller="Article" asp-action="Index" class="nav_link active">Makaleler</a>
                     </li>
                     <li class="nav_items">
                         <a href="#contact" class="nav_link active">İletişim</a>
@@ -81,7 +86,7 @@
         </div>
 
         <p data-aos="fade-down" data-aos-delay="650">
-            &#169; Copyright MUBİTEK Tasarım Bilişim AR-GE © 2005 - 2024
+            &#169; Copyright MUBİTEK Tasarım Bilişim AR-GE © 2005 - @DateTime.Now.Year
         </p>
     </footer>
 
@@ -89,7 +94,15 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="~/assets/js/main.js"></script>
 
+    <script>
+        AOS.init({
+            duration: 1200,
+            once: false,
+        });
+    </script>
 
 </body>
 </html>
