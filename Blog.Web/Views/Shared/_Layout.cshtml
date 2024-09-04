@@ -18,22 +18,22 @@
     <header class="header">
         <nav class="nav bd_grid">
             <div>
-                <a href="#" class="nav_logo">Gül Çiçek Zengin</a>
+                <a asp-controller="Home" asp-action="Index" class="nav_logo">Gül Çiçek Zengin</a>
             </div>
 
             <div class="nav_menu" id="nav_menu">
                 <ul class="nav_list">
                     <li class="nav_items">
-                        <a href="#home" class="nav_link active">Anasayfa</a>
+                        <a asp-controller="Home" asp-action="Index" class="nav_link active">Anasayfa</a>
                     </li>
                     <li class="nav_items">
-                        <a href="#about" class="nav_link active">Hakkımda</a>
+                        <a asp-controller="About" asp-action="Index" class="nav_link active">Hakkımda</a>
                     </li>
                     <li class="nav_items">
                         <a asp-controller="Article" asp-action="Index" class="nav_link active">Makaleler</a>
                     </li>
                     <li class="nav_items">
-                        <a href="#contact" class="nav_link active">İletişim</a>
+                        <a asp-controller="Contact" asp-action="Index" class="nav_link active">İletişim</a>
                     </li>
                 </ul>
             </div>
@@ -106,13 +106,3 @@
 
 </body>
 </html>
-
-@section Scripts {
-    <script src="~/js/socialmediaLinks.js"></script>
-    <script>
-        var app = app || {}
-        app.Urls = app.Urls || {}
-
-        app.Urls.socialLinksUrl = "@(Url.Action("GetSocialMediaLinks", "Home"))";
-    </script>
-}

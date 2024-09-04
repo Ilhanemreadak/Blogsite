@@ -1,14 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Blog.Entity.Entities;
-using Blog.Data.Context;
-using Blog.Data.Mappings;
-using System.Reflection;
+﻿using Blog.Entity.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace Blog.Data.Context
 {
@@ -23,7 +16,10 @@ namespace Blog.Data.Context
         public DbSet<Category> Category { get;  set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<About> About { get; set; }
-        //public DbSet<SocialMedia> SocialMedia { get; set; }
+        public DbSet<SocialMedia> SocialMedia { get; set; }
+        public DbSet<ContactMessages> Messages { get; set; }
+        public DbSet<Visitor> Visitors { get; set; }
+        public DbSet<ArticleVisitor> ArticleVisitors { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

@@ -165,11 +165,9 @@ namespace Blog.Web.Areas.Admin.Controllers
                     toast.AddErrorToastMessage("Profil güncelleme işlemi sırasında bir hatayla karşılaşılmıştır.", new ToastrOptions() { Title = "İşlem Başarısız !" });
                     return View(profile);
                }
-
             }
             else
             {
-                
                 return NotFound();
             }
                 

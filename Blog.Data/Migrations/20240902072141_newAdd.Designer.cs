@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blog.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240812232103_socialmapping")]
-    partial class socialmapping
+    [Migration("20240902072141_newAdd")]
+    partial class newAdd
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,31 +33,9 @@ namespace Blog.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -227,12 +205,10 @@ namespace Blog.Data.Migrations
             modelBuilder.Entity("Blog.Entity.Entities.AppUserLogin", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -377,6 +353,48 @@ namespace Blog.Data.Migrations
                     b.ToTable("Category");
                 });
 
+            modelBuilder.Entity("Blog.Entity.Entities.ContactMessages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedDate = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            Email = "deneme@mail.com",
+                            IsDeleted = false,
+                            Message = "Message123",
+                            Name = "İlhan Emre ADAK"
+                        });
+                });
+
             modelBuilder.Entity("Blog.Entity.Entities.Image", b =>
                 {
                     b.Property<Guid>("Id")
@@ -436,32 +454,6 @@ namespace Blog.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SocialMedia");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Link = "asdfasdf",
-                            SocialMediaType = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Link = "asadsfasdf",
-                            SocialMediaType = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Link = "asadsfasdfawdgasd",
-                            SocialMediaType = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Link = "asadsfaasdfgasdf",
-                            SocialMediaType = 4
-                        });
                 });
 
             modelBuilder.Entity("Blog.Entity.Entities.AppRoleClaim", b =>

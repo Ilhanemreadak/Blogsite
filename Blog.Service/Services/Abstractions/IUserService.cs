@@ -20,5 +20,6 @@ namespace Blog.Service.Services.Abstractions
         Task<string> GetUserRoleAsync(AppUser user);
         Task<VMUserProfile> GetUserProfileAsync();
         Task<bool> UserProfileUpdateAsync(VMUserProfile vmUserProfile);
+        Task<Image> GetAppUsersImageByIdAsync(Guid userId);
     }
 }

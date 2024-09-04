@@ -1,6 +1,7 @@
 ﻿using Blog.Data.Context;
 using Blog.Data.Repositories.Abstractions;
 using Blog.Data.Repositories.Concretes;
+using Blog.Entity.Entities;
 
 namespace Blog.Data.UnitOfWorks
 {

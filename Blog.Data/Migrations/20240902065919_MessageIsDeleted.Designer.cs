@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Blog.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240809115320_About")]
-    partial class About
+    [Migration("20240902065919_MessageIsDeleted")]
+    partial class MessageIsDeleted
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,29 +72,6 @@ namespace Blog.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("14269f97-e34f-44f0-8f09-165e17058617"),
-                            ConcurrencyStamp = "732fa30a-e345-4ae1-bddd-7d8e5d40f886",
-                            Name = "SuperAdmin",
-                            NormalizedName = "SUPERADMIN"
-                        },
-                        new
-                        {
-                            Id = new Guid("1928a271-274d-43de-bf56-45b195ca0e59"),
-                            ConcurrencyStamp = "914b2d02-42d9-45e9-b9db-517c3319b98c",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = new Guid("d7eb6dcf-e203-4388-beaa-95caa126d718"),
-                            ConcurrencyStamp = "72a6a52a-b757-4bdc-82d3-05f984f01ac6",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Blog.Entity.Entities.AppRoleClaim", b =>
@@ -199,48 +176,6 @@ namespace Blog.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("c118d34e-5077-4f02-8c68-6bfbc61a4df0"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "a9a6d844-3f1f-43da-828d-880b31b31658",
-                            Email = "superadmin@gmail.com",
-                            EmailConfirmed = true,
-                            FirstName = "Ilhan Emre",
-                            ImageId = new Guid("4675f9e0-085b-4a27-8d4a-c97ace6a7971"),
-                            LastName = "ADAK",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "SUPERADMIN@GMAIL.COM",
-                            NormalizedUserName = "SUPERADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEFESl4GaQjDaq6NyxxYggqGSBiDMSO4jRAQ7R+IIh9+bxVcW7X0EvyD0t7dh4w/izw==",
-                            PhoneNumber = "+905419999999",
-                            PhoneNumberConfirmed = true,
-                            SecurityStamp = "bdc6d7bd-fede-4b8e-82e0-23e4e403fbe3",
-                            TwoFactorEnabled = false,
-                            UserName = "superadmin@gmail.com"
-                        },
-                        new
-                        {
-                            Id = new Guid("20978c52-0503-4800-a4b5-68927e3d1ee0"),
-                            AccessFailedCount = 0,
-                            ConcurrencyStamp = "d6325670-7ed1-4488-ba31-8ea67e38fd4f",
-                            Email = "admin@gmail.com",
-                            EmailConfirmed = false,
-                            FirstName = "Admin",
-                            ImageId = new Guid("d20eeb5b-2979-4068-a91f-42ebf3b9b03e"),
-                            LastName = "User",
-                            LockoutEnabled = false,
-                            NormalizedEmail = "ADMIN@GMAIL.COM",
-                            NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOihZme4UOO3H6igxwIFOACgxlsXXKVfpz2Da/QwM9JtJfDF795ZOJmOlk3b31fw9Q==",
-                            PhoneNumber = "+905418888888",
-                            PhoneNumberConfirmed = false,
-                            SecurityStamp = "9960a286-9077-49e8-ba58-5ab34507250f",
-                            TwoFactorEnabled = false,
-                            UserName = "admin@gmail.com"
-                        });
                 });
 
             modelBuilder.Entity("Blog.Entity.Entities.AppUserClaim", b =>
@@ -270,12 +205,10 @@ namespace Blog.Data.Migrations
             modelBuilder.Entity("Blog.Entity.Entities.AppUserLogin", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -303,18 +236,6 @@ namespace Blog.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            UserId = new Guid("c118d34e-5077-4f02-8c68-6bfbc61a4df0"),
-                            RoleId = new Guid("14269f97-e34f-44f0-8f09-165e17058617")
-                        },
-                        new
-                        {
-                            UserId = new Guid("20978c52-0503-4800-a4b5-68927e3d1ee0"),
-                            RoleId = new Guid("1928a271-274d-43de-bf56-45b195ca0e59")
-                        });
                 });
 
             modelBuilder.Entity("Blog.Entity.Entities.AppUserToken", b =>
@@ -393,34 +314,6 @@ namespace Blog.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Articles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("3e418302-6617-44b1-aafb-c080a20cedac"),
-                            CategoryId = new Guid("63afd642-3fee-4c23-bb9d-8d37ee7e7310"),
-                            Content = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec placerat elit eu ullamcorper condimentum. Proin non suscipit massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam vel massa velit. Fusce nec elementum odio. Quisque mattis ipsum ornare arcu commodo, ac tristique enim cursus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed quis aliquet velit. Etiam mollis massa sed sagittis dignissim. Vivamus ultrices malesuada scelerisque. Nam ac vulputate neque. Nullam pharetra, ante id aliquet efficitur, arcu elit ullamcorper velit, vitae viverra ante nisi id enim. Nullam ante justo, dictum vitae.",
-                            CreatedBy = "admin",
-                            CreatedDate = new DateTime(2024, 7, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImageId = new Guid("4675f9e0-085b-4a27-8d4a-c97ace6a7971"),
-                            IsDeleted = false,
-                            Title = "Mubitek Deneme 1",
-                            UserId = new Guid("c118d34e-5077-4f02-8c68-6bfbc61a4df0"),
-                            ViewCount = 15
-                        },
-                        new
-                        {
-                            Id = new Guid("fa729af6-a354-44b5-b7a2-df6458b6af92"),
-                            CategoryId = new Guid("7fa8d647-9bbd-4d2f-bc80-2b5e6c16a052"),
-                            Content = "VisualStudio ile lorem aaaLorem ipsum dolor sit amet, consectetur adipiscing elit. Donec placerat elit eu ullamcorper condimentum. Proin non suscipit massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Aliquam vel massa velit. Fusce nec elementum odio. Quisque mattis ipsum ornare arcu commodo, ac tristique enim cursus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed quis aliquet velit. Etiam mollis massa sed sagittis dignissim. Vivamus ultrices malesuada scelerisque. Nam ac vulputate neque. Nullam pharetra, ante id aliquet efficitur, arcu elit ullamcorper velit, vitae viverra ante nisi id enim. Nullam ante justo, dictum vitae.",
-                            CreatedBy = "admin",
-                            CreatedDate = new DateTime(2024, 7, 29, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ImageId = new Guid("d20eeb5b-2979-4068-a91f-42ebf3b9b03e"),
-                            IsDeleted = false,
-                            Title = "Mubitek-Evok Deneme 1",
-                            UserId = new Guid("20978c52-0503-4800-a4b5-68927e3d1ee0"),
-                            ViewCount = 26
-                        });
                 });
 
             modelBuilder.Entity("Blog.Entity.Entities.Category", b =>
@@ -458,23 +351,47 @@ namespace Blog.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("Blog.Entity.Entities.ContactMessages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
 
                     b.HasData(
                         new
                         {
-                            Id = new Guid("63afd642-3fee-4c23-bb9d-8d37ee7e7310"),
-                            CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2024, 8, 9, 14, 53, 19, 941, DateTimeKind.Local).AddTicks(2769),
+                            Id = 2,
+                            CreatedDate = new DateTime(2024, 9, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            Email = "denemee@mail.com",
                             IsDeleted = false,
-                            Name = "ASP.NET Core"
-                        },
-                        new
-                        {
-                            Id = new Guid("7fa8d647-9bbd-4d2f-bc80-2b5e6c16a052"),
-                            CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2024, 8, 9, 14, 53, 19, 941, DateTimeKind.Local).AddTicks(2773),
-                            IsDeleted = false,
-                            Name = "Python"
+                            Message = "Messageeeeeeasdsdadasdas",
+                            Name = "İlhan Emre ADAK"
                         });
                 });
 
@@ -517,26 +434,26 @@ namespace Blog.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Images");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("4675f9e0-085b-4a27-8d4a-c97ace6a7971"),
-                            CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2024, 8, 9, 14, 53, 19, 941, DateTimeKind.Local).AddTicks(3682),
-                            FileName = "images/test",
-                            FileType = "jpg",
-                            IsDeleted = false
-                        },
-                        new
-                        {
-                            Id = new Guid("d20eeb5b-2979-4068-a91f-42ebf3b9b03e"),
-                            CreatedBy = "Admin Test",
-                            CreatedDate = new DateTime(2024, 8, 9, 14, 53, 19, 941, DateTimeKind.Local).AddTicks(3688),
-                            FileName = "images/vstest2",
-                            FileType = "png",
-                            IsDeleted = false
-                        });
+            modelBuilder.Entity("Blog.Entity.Entities.SocialMedia", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Link")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SocialMediaType")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("SocialMedia");
                 });
 
             modelBuilder.Entity("Blog.Entity.Entities.AppRoleClaim", b =>

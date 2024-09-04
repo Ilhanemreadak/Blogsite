@@ -15,8 +15,9 @@ namespace Blog.Entity.ViewModels.Articles
         public virtual int PageSize { get; set; } = 6;
         public virtual int TotalCount { get; set; }
         public virtual int TotalPages => (int)Math.Ceiling(decimal.Divide(TotalCount, PageSize));
-        public virtual bool ShowPrevius => CurrentPage > 1;
-        public virtual bool IsAscending { get; set; } = false;
+        public virtual bool ShowPrevious => CurrentPage > 1;
+		public virtual bool ShowNext => CurrentPage < TotalPages;
+		public virtual bool IsAscending { get; set; } = false;
 
     }
 }

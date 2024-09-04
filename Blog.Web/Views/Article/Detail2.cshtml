@@ -1,0 +1,81 @@
+﻿@model VMArticle
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.Title</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+        }
+        .header {
+            text-align: center;
+            padding: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .header .meta-info {
+            margin-top: 10px;
+            font-size: 0.9em;
+            color: #666;
+        }
+        .social-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .social-buttons button {
+            padding: 10px 20px;
+            font-size: 1em;
+            border: none;
+            cursor: pointer;
+        }
+        .article-image {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            display: block;
+        }
+        .content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>@Model.Title</h1>
+        <div class="meta-info">
+            <span>
+                <i class="fa-solid fa-eye"></i> @Model.ViewCount Görüntülenme
+            </span> / 
+            <span>
+                by @Model.User.FirstName @Model.User.LastName
+            </span>/ 
+            <span>
+                @Model.CreatedDate.ToString("dd/MM/yyyy")
+            </span>
+        </div>
+    </div>
+
+    <img src="~/images/article-images/default-image.jpg" alt="Gardening Image" class="article-image">
+
+    <div class="content">
+        <p>
+            @Model.Content
+        </p>
+    </div>
+
+</body>
+</html>

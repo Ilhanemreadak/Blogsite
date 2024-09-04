@@ -1,0 +1,57 @@
+﻿@model List<VMMessages>
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Gelen Kutusu /</span> Mesajlar
+    </h4>
+
+    <div class="card">
+        <div class="table-responsive text-nowrap m-5">
+
+            <table class="table table-bordered" id="categoriesTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>İsim</th>
+                        <th>Email</th>
+                        <th>Tarih</th>
+                        <th>Mesaj</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>İsim</th>
+                        <th>Email</th>
+                        <th>Tarih</th>
+                        <th>Mesaj</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </tfoot>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var message in Model)
+                    {
+                        <tr name="@message.Id">
+                            <td>@message.Name</td>
+                            <td>@message.Email</td>
+                            <td>@message.CreatedDate.ToShortDateString()</td>
+                            <td>@message.Message</td>
+                            <td>
+                                <a class="btn btn-outline-primary" data-id="@message.Id" asp-area="Admin" asp-controller="Message" asp-action="Update" asp-route-categoryId="@message.Id">
+                                    <i class="bx bxs-edit"></i>
+                                </a>
+                                <a class="btn btn-outline-danger" data-id="@message.Id" asp-area="Admin" asp-controller="Message" asp-action="Delete" asp-route-categoryId="@message.Id">
+                                    <i class="bx bxs-message-x"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="~/js/messagesIndex.js" type="application/ecmascript"></script>
+}

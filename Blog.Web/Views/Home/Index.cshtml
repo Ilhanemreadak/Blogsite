@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@model List<VMArticle>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -225,30 +226,19 @@
             <div class="work_container bd_grid"
                  data-aos="fade-down"
                  data-aos-delay="250">
-                <div class="work_img">
-                    <img src="./assets/img/work1.jpg" alt="" />
-                </div>
+                @for (int i = 0; Model.Count < 1 ? i < Model.Count : i < 9; i++)
+                {
+                    <div class="work_img">
+                        <a asp-controller="Article" asp-action="Detail" asp-route-Id="@Model[i].Id">
+                            <img src="~/images/@Model[i].Image.FileName" width="250" height="200" alt="" />
+                        </a>
+                    </div>
+                }
 
-                <div class="work_img">
-                    <img src="./assets/img/work2.jpg" alt="" />
-                </div>
-
-                <div class="work_img">
-                    <img src="./assets/img/work3.jpg" alt="" />
-                </div>
-
-                <div class="work_img">
-                    <img src="./assets/img/work4.jpg" alt="" />
-                </div>
-
-                <div class="work_img">
-                    <img src="./assets/img/work5.jpg" alt="" />
-                </div>
-
-                <div class="work_img">
-                    <img src="./assets/img/work6.jpg" alt="" />
-                </div>
             </div>
+
+            <a asp-controller="Article" asp-action="Index" class="button mt-5"> Makaleler</a>
+
         </section>
 
         <!-- CONTACT SECTION -->

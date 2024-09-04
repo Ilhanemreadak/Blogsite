@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Blog.Entity.Entities;
-using Blog.Entity.ViewModels.Articles;
 using Blog.Entity.ViewModels.Categories;
 using Blog.Service.Extensions;
 using Blog.Service.Services.Abstractions;
-using Blog.Service.Services.Concrete;
 using Blog.Web.ResultMessages;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -77,7 +75,6 @@ namespace Blog.Web.Areas.Admin.Controllers
                 toast.AddErrorToastMessage(result.Errors.First().ErrorMessage, new ToastrOptions() { Title = "İşlem Başarısız!" });
                 return Json (result.Errors.First().ErrorMessage);
             }
-
         }
 
 

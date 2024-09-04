@@ -10,6 +10,7 @@ namespace Blog.Service.Services.Abstractions
 {
     public interface IArticleService
     {
+        Task<VMArticleList> GetAllByPagingAsync(Guid? categoryId, int currentPage = 1, int pageSize = 6, bool isAscending = false);
         Task<List<VMArticle>> GetAllArticlesWithCategoryNonDeletedAsync();
         Task<List<VMArticle>> GetAllArticlesWithCategoryDeletedAsync();
         Task CreateArticleAsync(VMArticleAdd vmArticleAdd);

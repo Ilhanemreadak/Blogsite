@@ -1,95 +1,66 @@
-﻿<head>
+﻿@model VMArticleList
+
+<head>
 	<link rel="stylesheet" href="~/css/articleListStyle.css" />
+	<title>Makaleler</title>
 </head>
 <body>
 
 	<div style="height:100px;"></div>
 
-	<div id="content" class="site-content">
-		<div id="primary" class="content-area column full">
-			<main id="main" class="site-main">
-				<div class="grid portfoliogrid">
-
-					<article class="hentry">
-						<header class="entry-header">
-							<div class="entry-thumbnail">
-								<a href="portfolio-item.html"><img src="./assets/img/work1.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="p1" /></a>
-							</div>
-							<h2 class="entry-title"><a href="portfolio-item.html" rel="bookmark">Sunset Beach</a></h2>
-							<p class="entry-summary">A beautiful sunset on the beach, perfect for a summer evening.</p>
-							<a class='portfoliotype' href='portfolio-category.html'>summer</a>
-						</header>
-					</article>
-
-					<article class="hentry">
-						<header class="entry-header">
-							<div class="entry-thumbnail">
-								<a href="portfolio-item.html"><img src="./assets/img/work2.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="p1" /></a>
-							</div>
-							<h2 class="entry-title"><a href="portfolio-item.html" rel="bookmark">Earl of Moreland</a></h2>
-							<p class="entry-summary">A beautiful sunset on the beach, perfect for a summer evening.</p>
-							<a class='portfoliotype' href='portfolio-category.html'>hat</a>
-						</header>
-					</article>
-
-					<article class="hentry">
-						<header class="entry-header">
-							<div class="entry-thumbnail">
-								<a href="portfolio-item.html"><img src="./assets/img/work3.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="p1" /></a>
-							</div>
-							<h2 class="entry-title"><a href="portfolio-item.html" rel="bookmark">Eliza and John</a></h2>
-							<p class="entry-summary">A beautiful sunset on the beach, perfect for a summer evening.</p>
-							<a class='portfoliotype' href='portfolio-category.html'>summer</a>
-						</header>
-					</article>
-
-					<article class="hentry">
-						<header class="entry-header">
-							<div class="entry-thumbnail">
-								<a href="portfolio-item.html"><img src="./assets/img/work4.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="p1" /></a>
-							</div>
-							<h2 class="entry-title"><a href="portfolio-item.html" rel="bookmark">Hot Afternoon</a></h2>
-							<p class="entry-summary">A beautiful sunset on the beach, perfect for a summer evening.</p>
-							<a class='portfoliotype' href='portfolio-category.html'>pink</a>
-						</header>
-					</article>
-
-					<article class="hentry">
-						<header class="entry-header">
-							<div class="entry-thumbnail">
-								<a href="portfolio-item.html"><img src="./assets/img/work5.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="p1" /></a>
-							</div>
-							<h2 class="entry-title"><a href="portfolio-item.html" rel="bookmark">Long Walks</a></h2>
-							<p class="entry-summary">A beautiful sunset on the beach, perfect for a summer evening.</p>
-							<a class='portfoliotype' href='portfolio-category.html'>hat</a>
-						</header>
-					</article>
-
-					<article class="hentry">
-						<header class="entry-header">
-							<div class="entry-thumbnail">
-								<a href="portfolio-item.html"><img src="./assets/img/work6.jpg" class="attachment-post-thumbnail size-post-thumbnail wp-post-image" alt="p1" /></a>
-							</div>
-							<h2 class="entry-title"><a href="portfolio-item.html" rel="bookmark">Twilight</a></h2>
-							<p class="entry-summary">A beautiful sunset on the beach, perfect for a summer evening.</p>
-							<a class='portfoliotype' href='portfolio-category.html'>hat</a>
-						</header>
-					</article
+	<div class="articles-container">
+		@foreach (var article in Model.Articles)
+		{
+			<div class="article-card">
+				<div class="image-container">
+					<img src="~/images/@article.Image.FileName" alt="Article Image">
 				</div>
-			</main>
-		</div>
+				<div class="content">
+					<span class="category">@article.Category.Name</span>
+					<a asp-controller="Article" asp-action="Detail" asp-route-Id="@article.Id"><h1>@article.Title</h1></a>
+					<p>@article.Content.Substring(0, Math.Min(article.Content.Length, 100)) ...</p>
+					<div class="meta">
+						<span class="views"><i class="fa-solid fa-eye"></i> @article.ViewCount Görüntülenme</span>
+						<span class="date">@article.CreatedDate.ToString("dd/MM/yyyy")</span>
+						<span class="author"> By @article.User.FirstName @article.User.LastName</span>
+					</div>
+				</div>
+			</div>
+		}
 	</div>
 
-	<ul class="pagination justify-content-center">
-		<li class="page-item disabled">
-			<a class="page-link" href="#" tabindex="-1">Önceki</a>
-		</li>
-		<li class="page-item"><a class="page-link" href="#">1</a></li>
-		<li class="page-item"><a class="page-link" href="#">2</a></li>
-		<li class="page-item"><a class="page-link" href="#">3</a></li>
-		<li class="page-item">
-			<a class="page-link" href="#">Sonraki</a>
-		</li>
+	<ul class="pagination justify-content-center mb-4 mt-4 btn-block">
+
+		@if (Model.ShowPrevious)
+		{
+			<li class="page-item">
+				<a class="page-link" asp-route-currentPage="@(Model.CurrentPage - 1)" asp-route-pageSize="@Model.PageSize"> Önceki </a>
+			</li>
+		}
+		@for (int i = 1; i <= Model.TotalPages; i++)
+		{
+			<li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+
+				<a class="page-link" asp-route-currentPage="@i" asp-route-pageSize="@Model.PageSize"> @i </a>
+			</li>
+		}
+		@if (Model.ShowNext)
+		{
+			<li class="page-item">
+				<a class="page-link" asp-route-currentPage="@(Model.CurrentPage + 1)" asp-route-pageSize="@Model.PageSize"> Sonraki </a>
+			</li>
+		}
+
 	</ul>
 
 </body>
+
+@section Scripts {
+	<script src="~/js/socialmediaLinks.js"></script>
+	<script>
+		var app = app || {}
+		app.Urls = app.Urls || {}
+
+		app.Urls.socialLinksUrl = "@(Url.Action("GetSocialMediaLinks", "About"))";
+	</script>
+}

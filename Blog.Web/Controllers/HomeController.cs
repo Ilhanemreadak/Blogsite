@@ -1,3 +1,5 @@
+using Blog.Entity.Entities;
+using Blog.Entity.ViewModels.Articles;
 using Blog.Service.Services.Abstractions;
 using Blog.Web.Models;
 using Microsoft.AspNetCore.Mvc;

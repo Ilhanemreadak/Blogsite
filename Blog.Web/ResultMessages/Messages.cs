@@ -76,5 +76,20 @@
                 return $"{title} başlıklı hakkımda metni başarıyla güncellenmiştir. ";
             }
         }
+        public static class ContactMessage
+        {
+            public static string Add()
+            {
+                return "Mesaj başarıyla iletilmiştir. ";
+            }
+            public static string Delete(string name)
+            {
+                return $" {name} isimli kişinin mesajı çöp kutusuna taşındı. ";
+            }
+            public static string UndoDelete(string name)
+            {
+                return $"{name} isimli kişinin mesajı başarıyla geri alınmştır. ";
+            }
+        }
     }
 }

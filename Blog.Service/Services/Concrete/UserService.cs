@@ -3,20 +3,13 @@ using Blog.Data.UnitOfWorks;
 using Blog.Entity.Entities;
 using Blog.Entity.Enums;
 using Blog.Entity.ViewModels.Users;
-using Blog.Service.AutoMapper.Users;
 using Blog.Service.Extensions;
 using Blog.Service.Helpers.Images;
 using Blog.Service.Services.Abstractions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Blog.Service.Services.Concrete
 {
@@ -44,6 +37,35 @@ namespace Blog.Service.Services.Concrete
 
         public async Task<IdentityResult> CreateUserAsync(VMUserAdd vmUserAdd)
         {
+
+            if (vmUserAdd.Image == null) {
+                var defaultImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "user-images", "default-image.png");
+                var fileName = "default-image.png";
+
+                byte[] imageBytes = await File.ReadAllBytesAsync(defaultImagePath);
+                using var stream = new MemoryStream(imageBytes);
+
+                var image = new FormFile(stream, 0, stream.Length, "image", "default.png")
+                {
+                    Headers = new HeaderDictionary(),
+                    ContentType = "image/png"
+                };
+
+                var fullName = await imageHelper.Upload(fileName, image, ImageType.User);
+
+                using var ConvertedImage = System.Drawing.Image.FromStream(stream);
+
+                var newImage = new Blog.Entity.Entities.Image
+                {
+                    FileName = "user-images/default-image.png",
+                    FileType = image.ContentType,
+                    CreatedBy = "System"
+                };
+
+                vmUserAdd.Image = newImage;
+
+            }
+
             var map = mapper.Map<AppUser>(vmUserAdd);
 
             map.UserName = vmUserAdd.Email;
@@ -95,7 +117,14 @@ namespace Blog.Service.Services.Concrete
         {
             return await userManager.FindByIdAsync(userId.ToString());
         }
-
+        
+        public async Task<Image> GetAppUsersImageByIdAsync(Guid userId)
+        {
+            var user = await unitOfWork.GetRepository<AppUser>().GetAsync(x => x.Id == userId);
+            var image = await unitOfWork.GetRepository<Image>().GetAsync(x => x.Id == user.ImageId);
+            return image;
+        }
+        
         public async Task<string> GetUserRoleAsync(AppUser user)
         {
             return string.Join("", await userManager.GetRolesAsync(user));
@@ -127,14 +156,16 @@ namespace Blog.Service.Services.Concrete
             return map;
         }
 
-        private async Task<Guid> UploadImageForUser(VMUserProfile vmUserProfile)
+        private async Task<(Guid ImageId, Image Image)> UploadImageForUser(VMUserProfile vmUserProfile)
         {
             var userEmail = _user.GetLoggedInEmail();
             var imageUpload = await imageHelper.Upload($"{vmUserProfile.FirstName} {vmUserProfile.LastName}", vmUserProfile.Photo, ImageType.User);
             Image image = new(imageUpload.FullName, vmUserProfile.Photo.ContentType, userEmail);
             await unitOfWork.GetRepository<Image>().AddAsync(image);
+            await unitOfWork.SaveAsync();
+            vmUserProfile.Image = image;
 
-            return image.Id;
+            return (image.Id, image);
         }
 
         public async Task<bool> UserProfileUpdateAsync(VMUserProfile vmUserProfile)
@@ -155,7 +186,7 @@ namespace Blog.Service.Services.Concrete
                     mapper.Map(vmUserProfile, user);
                     if (vmUserProfile.Photo != null)
                     {
-                        user.ImageId = await UploadImageForUser(vmUserProfile);
+                        (user.ImageId , user.Image) = await UploadImageForUser(vmUserProfile);
                     }
 
                     await userManager.UpdateAsync(user);
@@ -175,7 +206,7 @@ namespace Blog.Service.Services.Concrete
                 mapper.Map(vmUserProfile, user);
                 if (vmUserProfile.Photo != null)
                 {
-                    user.ImageId = await UploadImageForUser(vmUserProfile);
+                    (user.ImageId, user.Image) = await UploadImageForUser(vmUserProfile);
                 }
 
                 await userManager.UpdateAsync(user);

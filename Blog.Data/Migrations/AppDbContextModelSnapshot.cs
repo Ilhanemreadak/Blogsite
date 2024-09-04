@@ -30,31 +30,9 @@ namespace Blog.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ModifiedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("ModifiedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -63,17 +41,6 @@ namespace Blog.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("About");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedBy = "Undefined",
-                            CreatedDate = new DateTime(2024, 8, 13, 16, 34, 32, 960, DateTimeKind.Local).AddTicks(7295),
-                            Description = "Yenilikçi bir Endüstriyel Tasarımcı olarak, tasarım düşüncesini kullanarak yaratıcı çözümler üretiyorum. Teknoloji tutkumu tasarımlarıma yansıtırken, boş zamanlarımda amatör ressamlık yaparak sanatsal yönümü geliştiriyorum.",
-                            IsDeleted = false,
-                            Title = "Ben Gül çiçek zengin"
-                        });
                 });
 
             modelBuilder.Entity("Blog.Entity.Entities.AppRole", b =>
@@ -235,12 +202,10 @@ namespace Blog.Data.Migrations
             modelBuilder.Entity("Blog.Entity.Entities.AppUserLogin", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -348,6 +313,21 @@ namespace Blog.Data.Migrations
                     b.ToTable("Articles");
                 });
 
+            modelBuilder.Entity("Blog.Entity.Entities.ArticleVisitor", b =>
+                {
+                    b.Property<Guid>("ArticleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("VisitorId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ArticleId", "VisitorId");
+
+                    b.HasIndex("VisitorId");
+
+                    b.ToTable("ArticleVisitors");
+                });
+
             modelBuilder.Entity("Blog.Entity.Entities.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -383,6 +363,37 @@ namespace Blog.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Category");
+                });
+
+            modelBuilder.Entity("Blog.Entity.Entities.ContactMessages", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("Blog.Entity.Entities.Image", b =>
@@ -444,32 +455,30 @@ namespace Blog.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SocialMedia");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Link = "asdfasdf",
-                            SocialMediaType = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Link = "asadsfasdf",
-                            SocialMediaType = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Link = "asadsfasdfawdgasd",
-                            SocialMediaType = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Link = "asadsfaasdfgasdf",
-                            SocialMediaType = 4
-                        });
+            modelBuilder.Entity("Blog.Entity.Entities.Visitor", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("IpAddress")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("userAgent")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Visitors");
                 });
 
             modelBuilder.Entity("Blog.Entity.Entities.AppRoleClaim", b =>
@@ -559,9 +568,33 @@ namespace Blog.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Blog.Entity.Entities.ArticleVisitor", b =>
+                {
+                    b.HasOne("Blog.Entity.Entities.Article", "Article")
+                        .WithMany("ArticleVisitors")
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Blog.Entity.Entities.Visitor", "Visitor")
+                        .WithMany("ArticleVisitors")
+                        .HasForeignKey("VisitorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Article");
+
+                    b.Navigation("Visitor");
+                });
+
             modelBuilder.Entity("Blog.Entity.Entities.AppUser", b =>
                 {
                     b.Navigation("Articles");
+                });
+
+            modelBuilder.Entity("Blog.Entity.Entities.Article", b =>
+                {
+                    b.Navigation("ArticleVisitors");
                 });
 
             modelBuilder.Entity("Blog.Entity.Entities.Category", b =>
@@ -575,6 +608,11 @@ namespace Blog.Data.Migrations
 
                     b.Navigation("User")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Blog.Entity.Entities.Visitor", b =>
+                {
+                    b.Navigation("ArticleVisitors");
                 });
 #pragma warning restore 612, 618
         }

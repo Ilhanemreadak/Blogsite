@@ -1,0 +1,55 @@
+﻿@model VMMessagesAdd
+
+
+<section class="contact section" id="contact">
+    <h2 class="section-title" data-aos="fade-down">İletişim</h2>
+
+    <div class="contact_container bd_grid">
+        <form asp-controller="Contact" asp-action="Add" class="contact_form">
+            <div asp-validation-summary="ModelOnly"></div>
+            <label asp-for="Name" for="defaultFormControlInput" class="form-label">İsim</label>
+            <input asp-for="Name"
+                   type="text"
+                   placeholder="İsim"
+                   class="control_input"
+                   data-aos="fade-right"
+                   data-aos-delay="250" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+
+            <label asp-for="Email" for="defaultFormControlInput" class="form-label">Email</label>
+            <input asp-for="Email" type="mail"
+                   placeholder="Email"
+                   class="control_input"
+                   data-aos="fade-right"
+                   data-aos-delay="300" />
+            <span asp-validation-for="Email" class="text-danger"></span>
+
+            <label asp-for="Message" for="defaultFormControlInput" class="form-label">Mesajınız</label>
+            <textarea asp-for="Message"
+                      id=""
+                      cols="0"
+                      rows="10"
+                      class="control_input"
+                      data-aos="fade-right"
+                      data-aos-delay="400">
+            </textarea>
+            <span asp-validation-for="Message" class="text-danger"></span>
+
+            <input type="submit"
+                   value="Gönder"
+                   class="control_button button"
+                   data-aos="fade-right"
+                   data-aos-delay="450" />
+        </form>
+    </div>
+</section>
+
+@section Scripts {
+    <script src="~/js/socialmediaLinks.js"></script>
+    <script>
+        var app = app || {}
+        app.Urls = app.Urls || {}
+
+        app.Urls.socialLinksUrl = "@(Url.Action("GetSocialMediaLinks", "Contact"))";
+    </script>
+}

@@ -80,8 +80,10 @@ namespace Blog.Service.Helpers.Images
         {
             folderName ??= imageType == ImageType.User ? userImagesFolder : articleImagesFolder;
 
-            if (!Directory.Exists($"{wwwroot}/{imgFolder}/{folderName}"))
-                Directory.CreateDirectory($"{wwwroot}/{imgFolder}/{folderName}");
+            var folderPath = Path.Combine(wwwroot, imgFolder, folderName);
+
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
 
             string oldFileName = Path.GetFileNameWithoutExtension(imageFile.FileName);
             string fileExtension = Path.GetExtension(imageFile.FileName);
@@ -92,21 +94,24 @@ namespace Blog.Service.Helpers.Images
 
             string newFileName = $"{name}_{dateTime.Millisecond}{fileExtension}";
 
-            var path = Path.Combine($"{wwwroot}/{imgFolder}/{folderName}", newFileName);
+            var path = Path.Combine(folderPath, newFileName);
 
-            await using var stream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024, useAsync: false);
-            await imageFile.CopyToAsync(stream);
-            await stream.FlushAsync();
+            await using (var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write, FileShare.None, 1024 * 1024, useAsync: true))
+            {
+                await imageFile.CopyToAsync(fileStream);
+                await fileStream.FlushAsync();
+            }
 
             string message = imageType == ImageType.User
-                ? $"{newFileName} isimli kullanıcı resmi başarıyla eklenmiiştir."
+                ? $"{newFileName} isimli kullanıcı resmi başarıyla eklenmiştir."
                 : $"{newFileName} isimli makale resmi başarıyla eklenmiştir.";
 
             return new VMImageUploded()
             {
-                FullName = $"{folderName}/{newFileName}"
+                FullName = Path.Combine(folderName, newFileName)
             };
         }
+
 
         public void Delete(string imageName)
         {
