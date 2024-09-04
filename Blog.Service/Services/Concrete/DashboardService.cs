@@ -39,15 +39,28 @@ namespace Blog.Service.Services.Concrete
 
         public async Task<int> GetTotalArticleCount()
         {
-            var articleCount = await unitOfWork.GetRepository<Article>().CountAsync();
-            return articleCount;
+            return await unitOfWork.GetRepository<Article>().CountAsync();
         }
         public async Task<int> GetTotalCategoryCount()
         {
-            var categoryCount = await unitOfWork.GetRepository<Category>().CountAsync();
-            return categoryCount;
+            return await unitOfWork.GetRepository<Category>().CountAsync();
         }
 
+        public async Task<int> GetTotalViewCount()
+        {
+            var articles = await unitOfWork.GetRepository<Article>().GetAllAsync();
+            int viewcounts = 0;
+            foreach (var article in articles)
+            {
+                viewcounts += article.ViewCount;
+            }
 
+            return viewcounts;
+        }
+
+        public async Task<int> GetTotalMessageCount()
+        {
+            return await unitOfWork.GetRepository<ContactMessages>().CountAsync();
+        }
     }
 }

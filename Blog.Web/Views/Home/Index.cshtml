@@ -230,7 +230,7 @@
                 {
                     <div class="work_img">
                         <a asp-controller="Article" asp-action="Detail" asp-route-Id="@Model[i].Id">
-                            <img src="~/images/@Model[i].Image.FileName" width="250" height="200" alt="" />
+                            <img src="~/images/@Model[i].Image.FileName" alt="" />
                         </a>
                     </div>
                 }
@@ -238,8 +238,8 @@
             </div>
 
             <a asp-controller="Article" asp-action="Index" class="button mt-5"> Makaleler</a>
-
         </section>
+
 
         <!-- CONTACT SECTION -->
 

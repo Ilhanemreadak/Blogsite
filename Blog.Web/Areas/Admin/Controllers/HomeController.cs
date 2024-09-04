@@ -46,5 +46,19 @@ namespace Blog.Web.Areas.Admin.Controllers
             var count = await dashboardService.GetTotalCategoryCount();
             return Json(count);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> TotalMessageCount()
+        {
+            var count = await dashboardService.GetTotalMessageCount();
+            return Json(count);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> TotalViewCount()
+        {
+            var count = await dashboardService.GetTotalViewCount();
+            return Json(count);
+        }
     }
 }

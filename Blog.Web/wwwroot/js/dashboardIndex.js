@@ -5,6 +5,8 @@ $(document).ready(function () {
     var yearlyArticlesUrl = app.Urls.yearlyArticlesUrl;
     var totalArticleCountUrl = app.Urls.totalArticleCountUrl;
     var totalCategoryCountUrl = app.Urls.totalCategoryCountUrl;
+    var totalMessageCountUrl = app.Urls.totalMessageCountUrl;
+    var totalViewCountUrl = app.Urls.totalViewCountUrl;
 
 
     $.ajax({
@@ -33,6 +35,32 @@ $(document).ready(function () {
 
     });
 
+    $.ajax({
+        type: "GET",
+        url: totalViewCountUrl,
+        dataType: "json",
+        success: function (data) {
+            $("h3#totalViewCount").append(data);
+        },
+        error: function () {
+            toastr.error("Kategori Analizleri yüklenirken hata oluştu", "Hata");
+        }
+
+    });
+
+    $.ajax({
+        type: "GET",
+        url: totalMessageCountUrl,
+        dataType: "json",
+        success: function (data) {
+            $("h3#totalMessageCount").append(data);
+        },
+        error: function () {
+            toastr.error("Kategori Analizleri yüklenirken hata oluştu", "Hata");
+        }
+
+    });
+
 
     $.ajax({
         type: "GET",
@@ -41,7 +69,6 @@ $(document).ready(function () {
         success: function (data) {
             var parsedData = JSON.parse(data);
             chartData = parsedData;
-            console.log(chartData);
 
             let cardColor, headingColor, axisColor, shadeColor, borderColor;
 
@@ -49,9 +76,7 @@ $(document).ready(function () {
             headingColor = config.colors.headingColor;
             axisColor = config.colors.axisColor;
             borderColor = config.colors.borderColor;
-
-            // Total Revenue Report Chart - Bar Chart
-            // --------------------------------------------------------------------
+            
             const totalRevenueChartEl = document.querySelector('#customTotalRevenueChart'),
                 totalRevenueChartOptions = {
                     series: [

@@ -1,4 +1,5 @@
-﻿@model VMArticleList
+﻿@using System.Text.RegularExpressions
+@model VMArticleList
 
 <head>
 	<link rel="stylesheet" href="~/css/articleListStyle.css" />
@@ -13,12 +14,14 @@
 		{
 			<div class="article-card">
 				<div class="image-container">
-					<img src="~/images/@article.Image.FileName" alt="Article Image">
+					<img src="~/images/@article.Image.FileName" alt="Article Image" class="mt-2">
 				</div>
 				<div class="content">
 					<span class="category">@article.Category.Name</span>
 					<a asp-controller="Article" asp-action="Detail" asp-route-Id="@article.Id"><h1>@article.Title</h1></a>
-					<p>@article.Content.Substring(0, Math.Min(article.Content.Length, 100)) ...</p>
+					<p>@(new HtmlAgilityPack.HtmlDocument() { DocumentNode = { InnerHtml = article.Content } }.DocumentNode.InnerText.Substring(0, Math.Min(article.Content.Length, 100)))</p>
+
+
 					<div class="meta">
 						<span class="views"><i class="fa-solid fa-eye"></i> @article.ViewCount Görüntülenme</span>
 						<span class="date">@article.CreatedDate.ToString("dd/MM/yyyy")</span>

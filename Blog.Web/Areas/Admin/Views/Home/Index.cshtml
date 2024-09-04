@@ -48,29 +48,29 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-6 mb-4">
+                     <div class="col-lg-6 col-md-12 col-6 mb-4">
                         <div class="card">
                             <div class="card-body">
                                 <div class="card-title d-flex align-items-start justify-content-between">
                                     <div class="avatar flex-shrink-0">
-                                        <img src="~/sneat/assets/img/icons/unicons/paypal.png" class="rounded" />
+                                        <i style="height: 30px; font-size:2.25rem;" class="menu-icon tf-icon bx bxs-category"></i>
                                     </div>
                                 </div>
-                                <span class="d-block mb-1">Gelen Mesaj Sayısı</span>
-                                <h3 class="card-title text-nowrap mb-2">20</h3>
+                                <span class="fw-semibold d-block mb-1">Toplam Gelen Mesaj Sayısı</span>
+                                <h3 class="card-title text-nowrap mb-2" id="totalMessageCount"></h3>
                             </div>
                         </div>
                     </div>
-                    <div class="col-6 mb-4">
+                     <div class="col-lg-6 col-md-12 col-6 mb-4">
                         <div class="card">
                             <div class="card-body">
                                 <div class="card-title d-flex align-items-start justify-content-between">
                                     <div class="avatar flex-shrink-0">
-                                        <img src="~/sneat/assets/img/icons/unicons/cc-primary.png" class="rounded" />
+                                        <i style="height: 30px; font-size:2.25rem;" class="menu-icon tf-icon bx bx-chat"></i>
                                     </div>
                                 </div>
-                                <span class="fw-semibold d-block mb-1">Makale Okunması</span>
-                                <h3 class="card-title mb-2">10</h3>
+                                <span class="fw-semibold d-block mb-1">Toplam Makale Okunma Sayısı</span>
+                                <h3 class="card-title text-nowrap mb-2" id="totalViewCount"></h3>
                             </div>
                         </div>
                     </div>
@@ -95,5 +95,7 @@
 		app.Urls.yearlyArticlesUrl = "@(Url.Action("YearlyArticleCounts", "Home"))";
         app.Urls.totalArticleCountUrl = "@(Url.Action("TotalArticleCount", "Home"))";
         app.Urls.totalCategoryCountUrl = "@(Url.Action("TotalCategoryCount", "Home"))";
+        app.Urls.totalMessageCountUrl = "@(Url.Action("TotalMessageCount", "Home"))";
+        app.Urls.totalViewCountUrl = "@(Url.Action("TotalViewCount", "Home"))";
 	</script>
 }

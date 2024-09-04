@@ -26,7 +26,7 @@
                         </div>
                         <div class="form-group">
                             <label asp-for="Content" for="defaultFormControlInput" class="form-label">ICERIK</label>
-                            <textarea asp-for="Content" type="text" class="form-control mb-4" id="defaultFormControlInput" style="min-height:300px" placeholder="Lütfen metninizi buraya giriniz." aria-describedby="defaultFormControlHelp"></textarea>
+                            <textarea asp-for="Content" type="text" class="form-control mb-4" id="contentEditor" style="min-height:300px" placeholder="Lütfen metninizi buraya giriniz." aria-describedby="defaultFormControlHelp"></textarea>
                             <span asp-validation-for="Content" class="text-danger"></span>
                         </div>
                         <div class="form-group">
@@ -50,3 +50,26 @@
     </div>
 </div>
 
+@section Scripts
+{
+    <!-- TinyMCE Kütüphanesi -->
+    <script src="https://cdn.tiny.cloud/1/9usx44ku6gm9amfjkdz28a85hg0ekh86l6ltk360aftj3kjv/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
+
+    <script>
+        // TinyMCE'yi Başlat
+        tinymce.init({
+            selector: '#contentEditor',
+            height: 300,
+            menubar: false,
+            plugins: [
+                'advlist autolink lists link image charmap print preview anchor',
+                'searchreplace visualblocks code fullscreen',
+                'insertdatetime media table paste code help wordcount'
+            ],
+            toolbar: 'undo redo | formatselect | bold italic backcolor | \
+                              alignleft aligncenter alignright alignjustify | \
+                              bullist numlist outdent indent | removeformat | help'
+        });
+    </script>
+
+}
