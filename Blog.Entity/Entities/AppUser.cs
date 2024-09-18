@@ -13,6 +13,8 @@ namespace Blog.Entity.Entities
         public Guid ImageId { get; set; } 
         public Image Image { get; set; }
         public ICollection<Article> Articles { get; set; }
+        public ICollection<Educational> Educationals { get; set; }
+        public ICollection<InPress> InPresses { get; set; }
 
     }
 }

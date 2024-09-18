@@ -202,11 +202,15 @@ namespace Blog.Service.Services.Concrete
             else if (isVerified)
             {
                 await userManager.UpdateSecurityStampAsync(user);
-
+                var imageId = user.ImageId;
                 mapper.Map(vmUserProfile, user);
                 if (vmUserProfile.Photo != null)
                 {
                     (user.ImageId, user.Image) = await UploadImageForUser(vmUserProfile);
+                }
+                else
+                {
+                    user.ImageId = imageId;
                 }
 
                 await userManager.UpdateAsync(user);

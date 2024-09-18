@@ -81,7 +81,6 @@ namespace Blog.Service.Services.Concrete
             await unitOfWork.GetRepository<Image>().AddAsync(image);
 
             var user = await userService.GetAppUserByIdAsync(userId);
-            user.Image = await userService.GetAppUsersImageByIdAsync(userId);
 
             var article = new Article(vmArticleAdd.Title, vmArticleAdd.Content, userId, user, useremail, vmArticleAdd.CategoryId, image.Id);
             await unitOfWork.GetRepository<Article>().AddAsync(article);
@@ -171,5 +170,30 @@ namespace Blog.Service.Services.Concrete
             return article.Title;
         }
 
-    }
+        public async Task<bool> ArticleVisitorCheckerAsync(Guid articleId)
+        {
+			var ipAdress = httpContextAccessor.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();
+			var articleVisitors = await unitOfWork.GetRepository<ArticleVisitor>().GetAllAsync(null, x => x.Visitor, y => y.Article);
+			var article = await unitOfWork.GetRepository<Blog.Entity.Entities.Article>().GetAsync(x => x.Id == articleId);
+
+			var visitor = await unitOfWork.GetRepository<Visitor>().GetAsync(x => x.IpAddress == ipAdress);
+
+			var addArticleVisitors = new ArticleVisitor(article.Id, visitor.Id);
+
+            if(articleVisitors.Any(x => x.VisitorId == addArticleVisitors.VisitorId && x.ArticleId == addArticleVisitors.ArticleId))
+            {
+                return true;
+            }
+            else
+            {
+				await unitOfWork.GetRepository<ArticleVisitor>().AddAsync(addArticleVisitors);
+				article.ViewCount += 1;
+				await unitOfWork.GetRepository<Article>().UpdateAsync(article);
+				await unitOfWork.SaveAsync();
+
+                return false;
+			}
+		}
+
+	}
 }

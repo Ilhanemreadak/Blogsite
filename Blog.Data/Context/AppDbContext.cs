@@ -13,6 +13,8 @@ namespace Blog.Data.Context
         }
 
         public DbSet<Article> Articles { get; set; }    
+        public DbSet<Educational> Educationals { get; set; }    
+        public DbSet<InPress> InPresses { get; set; }    
         public DbSet<Category> Category { get;  set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<About> About { get; set; }
@@ -20,6 +22,8 @@ namespace Blog.Data.Context
         public DbSet<ContactMessages> Messages { get; set; }
         public DbSet<Visitor> Visitors { get; set; }
         public DbSet<ArticleVisitor> ArticleVisitors { get; set; }
+        public DbSet<EducationalVisitor> EducationalVisitors{ get; set; }
+        public DbSet<InPressVisitor> InPressVisitors{ get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

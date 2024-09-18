@@ -18,5 +18,7 @@ namespace Blog.Service.Services.Abstractions
         Task<string> UpdateArticleAsync(VMArticleUpdate vmArticleUpdate);
         Task<string> SafeDeleteArticleAsync(Guid articleId);
         Task<string> UndoDeleteArticleAsync(Guid articleId);
-    }
+        Task<bool> ArticleVisitorCheckerAsync(Guid articleId);
+
+	}
 }

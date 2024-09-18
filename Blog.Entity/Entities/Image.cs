@@ -18,6 +18,8 @@ namespace Blog.Entity.Entities
         public string FileName { get; set; }
         public string FileType { get; set; }
         public ICollection<Article> Articles { get; set; }
+        public ICollection<Educational> Educationals { get; set; }
+        public ICollection<InPress> InPresses { get; set; }
         public AppUser User { get; set; }
     }
 }

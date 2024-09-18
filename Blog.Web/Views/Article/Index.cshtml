@@ -19,8 +19,12 @@
 				<div class="content">
 					<span class="category">@article.Category.Name</span>
 					<a asp-controller="Article" asp-action="Detail" asp-route-Id="@article.Id"><h1>@article.Title</h1></a>
-					<p>@(new HtmlAgilityPack.HtmlDocument() { DocumentNode = { InnerHtml = article.Content } }.DocumentNode.InnerText.Substring(0, Math.Min(article.Content.Length, 100)))</p>
-
+					@{
+						var innerText = new HtmlAgilityPack.HtmlDocument() { DocumentNode = { InnerHtml = article.Content } }.DocumentNode.InnerText;
+						var maxLength = Math.Min(innerText.Length, 100);
+						var excerpt = innerText.Substring(0, maxLength);
+					}
+					<p>@excerpt</p>
 
 					<div class="meta">
 						<span class="views"><i class="fa-solid fa-eye"></i> @article.ViewCount Görüntülenme</span>

@@ -33,9 +33,10 @@ namespace Blog.Web.Areas.Admin.Controllers
         }
 
         [HttpGet]
-        public IActionResult Show()
+        public async Task<IActionResult> Full(int messageId)
         {
-            return View();
+			var message = await messageService.GetMessageByIdAsync(messageId);
+			return View(message);
         }
 
         public async Task<IActionResult> Delete(int messageId)

@@ -44,10 +44,23 @@ namespace Blog.Web.Controllers
                 toast.AddSuccessToastMessage(Messages.ContactMessage.Add(), new ToastrOptions() { Title = "İşlem Başarılı!" });
                 return RedirectToAction("Index", "Contact");
             }
-
             result.AddToModelState(this.ModelState);
             return View();
+        }
 
+        [HttpPost]
+        public async Task<IActionResult> AddIndex([FromBody] VMMessagesAdd vmMessagesAdd)
+        {
+            var map = mapper.Map<ContactMessages>(vmMessagesAdd);
+            var result = await validator.ValidateAsync(map);
+
+            if (result.IsValid)
+            {
+                await messageService.CreateMessageAsync(vmMessagesAdd);
+                return Json(new { success = true, message = "Mesajınız başarıyla gönderildi." });
+            }
+
+            return Json(new { success = false, message = "Mesaj gönderilirken bir hata oluştu." });
         }
 
         [HttpGet]

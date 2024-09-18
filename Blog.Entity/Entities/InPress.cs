@@ -1,0 +1,53 @@
+﻿using Blog.Core.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Blog.Entity.Entities
+{
+    public class InPress : EntityBase
+    {
+        public InPress()
+        {
+
+        }
+
+        public InPress(string title, string content, Guid userId, string createdBy, Guid categoryId, Guid imageId)
+        {
+            Title = title;
+            Content = content;
+            UserId = userId;
+            CategoryId = categoryId;
+            ImageId = imageId;
+            CreatedBy = createdBy;
+        }
+
+        public InPress(string title, string content, Guid userId, AppUser user, string createdBy, Guid categoryId, Guid imageId)
+        {
+            Title = title;
+            Content = content;
+            UserId = userId;
+            CategoryId = categoryId;
+            ImageId = imageId;
+            CreatedBy = createdBy;
+            User = user;
+        }
+
+        public string Title { get; set; }
+        public string Content { get; set; }
+        public int ViewCount { get; set; } = 0;
+
+        public Guid CategoryId { get; set; }
+        public Category Category { get; set; }
+
+        public Guid? ImageId { get; set; }
+        public Image Image { get; set; }
+
+        public Guid UserId { get; set; }
+        public AppUser User { get; set; }
+
+        public ICollection<InPressVisitor> InPressVisitors { get; set; }
+    }
+}

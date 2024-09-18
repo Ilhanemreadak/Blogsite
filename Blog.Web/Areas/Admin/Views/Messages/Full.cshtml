@@ -1,0 +1,41 @@
+﻿@model VMMessage
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Gelen Kutusu /</span> Mesajlar
+    </h4>
+
+    <div class="row g-6">
+        <div class="col-md-12">
+            <div class="card">
+                <h5 class="card-header">Makale</h5>
+                <form enctype="multipart/form-data">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="defaultFormControlInput" class="form-label mt-4">İsim</label>
+                            <p>@Model.Name</p>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="defaultFormControlInput" class="form-label">Mail Adresi</label>
+                            <p>@Model.Email</p>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="defaultFormControlInput" class="form-label">Mesaj</label>
+                            <p>@Model.Message</p>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label for="defaultFormControlInput" class="form-label">Tarih</label>
+                            <p>@Model.CreatedDate</p>
+                            <span class="text-danger"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+

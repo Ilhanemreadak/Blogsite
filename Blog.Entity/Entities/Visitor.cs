@@ -19,6 +19,8 @@ namespace Blog.Entity.Entities
         public string UserAgent { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
         public ICollection<ArticleVisitor> ArticleVisitors { get; set; }
+        public ICollection<EducationalVisitor> EducationalVisitors{ get; set; }
+        public ICollection<InPressVisitor> InPressVisitors { get; set; }
 
 
     }

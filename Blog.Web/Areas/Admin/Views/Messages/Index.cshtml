@@ -36,10 +36,10 @@
                             <td>@message.CreatedDate.ToShortDateString()</td>
                             <td>@message.Message</td>
                             <td>
-                                <a class="btn btn-outline-primary" data-id="@message.Id" asp-area="Admin" asp-controller="Message" asp-action="Update" asp-route-categoryId="@message.Id">
-                                    <i class="bx bxs-edit"></i>
+                                <a class="btn btn-outline-primary" data-id="@message.Id" asp-area="Admin" asp-controller="Messages" asp-action="Full" asp-route-messageId="@message.Id">
+                                    <i class="bx bx-envelope"></i>
                                 </a>
-                                <a class="btn btn-outline-danger" data-id="@message.Id" asp-area="Admin" asp-controller="Message" asp-action="Delete" asp-route-categoryId="@message.Id">
+                                <a class="btn btn-outline-danger" data-id="@message.Id" asp-area="Admin" asp-controller="Messages" asp-action="Delete" asp-route-messageId="@message.Id">
                                     <i class="bx bxs-message-x"></i>
                                 </a>
                             </td>

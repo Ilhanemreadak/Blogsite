@@ -32,10 +32,11 @@ namespace Blog.Service.Services.Concrete
             await unitOfWork.SaveAsync();
         }
 
-        public async Task<ContactMessages> GetMessageByIdAsync (int messageId)
+        public async Task<VMMessage> GetMessageByIdAsync (int messageId)
         {
             var message = await unitOfWork.GetRepository<ContactMessages>().GetByIdAsync(messageId);
-            return message;
+            var map = mapper.Map<VMMessage>(message);
+            return map;
         }
 
         public async Task<string> SafeDeleteMessageAsync(int messageId)

@@ -12,7 +12,7 @@ namespace Blog.Service.Services.Abstractions
     {
         Task<List<VMMessages>> GetAllMessagesNonDeleted();
         Task CreateMessageAsync(VMMessagesAdd vmMessagesAdd);
-        Task<ContactMessages> GetMessageByIdAsync(int messageId);
+        Task<VMMessage> GetMessageByIdAsync(int messageId);
         Task<string> SafeDeleteMessageAsync(int messageId);
         Task<List<VMMessages>> GetAllMessagesDeleted();
         Task<string> UndoDeleteMessageAsync(int messageId);

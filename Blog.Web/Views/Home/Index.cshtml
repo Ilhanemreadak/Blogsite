@@ -21,7 +21,7 @@
                 <h1 class="home_title">
                     Selam, <br />Ben <span class="home_title-color">Gül Çiçek ZENGİN</span><br />Genel Müdür Yrd./Ortak - Mubitek Tasarım Bilişim
                 </h1>
-                <a href="#contact" class="button"> İletişim</a>
+                <a asp-controller="Contact" asp-action="Index" class="button"> İletişim</a>
             </div>
 
             <div class="home_social">
@@ -88,8 +88,7 @@
                         Profesyonel Yetenekler
                     </h2>
                     <p class="skills_text" data-aos="fade-down" data-aos-delay="350">
-                        Without sharpen your weapon; standing on the battlefield would not
-                        increase your chance of winning
+                        Yeteneklerimize yatırım yapmadan, sürdürülebilir başarı elde etmek mümkün değildir.
                     </p>
                     <!-- SKILLS HTML -->
                     <div class="skills_data" data-aos="fade-right">
@@ -242,24 +241,29 @@
 
 
         <!-- CONTACT SECTION -->
-
+        <!-- CONTACT SECTION -->
+        <!-- CONTACT SECTION -->
         <section class="contact section" id="contact">
             <h2 class="section-title" data-aos="fade-down">İletişim</h2>
 
             <div class="contact_container bd_grid">
-                <form action="#" class="contact_form">
+                <form id="contactForm" class="contact_form">
                     <input type="text"
+                           id="name"
+                           name="name"
                            placeholder="İsim"
                            class="control_input"
                            data-aos="fade-right"
                            data-aos-delay="250" />
-                    <input type="mail"
+                    <input type="email"
+                           id="email"
+                           name="email"
                            placeholder="Email"
                            class="control_input"
                            data-aos="fade-right"
                            data-aos-delay="300" />
-                    <textarea name=""
-                              id=""
+                    <textarea id="message"
+                              name="message"
                               cols="0"
                               rows="10"
                               class="control_input"
@@ -267,6 +271,7 @@
                               data-aos-delay="400"></textarea>
 
                     <input type="button"
+                           id="submitButton"
                            value="Gönder"
                            class="control_button button"
                            data-aos="fade-right"
@@ -274,6 +279,8 @@
                 </form>
             </div>
         </section>
+
+
 
         
     </main>
@@ -289,6 +296,37 @@
     </script>
 </body>
 </html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#submitButton').click(function (e) {
+            e.preventDefault();
+
+            var formData = {
+                name: $('#name').val(),
+                email: $('#email').val(),
+                message: $('#message').val()
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/Contact/AddIndex",
+                data: JSON.stringify(formData), 
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                    alert("Mesajınız başarıyla gönderildi!");
+                    $('#contactForm')[0].reset(); 
+                },
+                error: function (xhr, status, error) {
+                    alert("Mesaj gönderilirken bir hata oluştu: " + error);
+                }
+            });
+        });
+    });
+</script>
+
 
 @section Scripts {
     <script src="~/js/aboutGet.js"></script>

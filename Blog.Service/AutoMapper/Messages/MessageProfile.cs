@@ -9,6 +9,7 @@ namespace Blog.Service.AutoMapper.Messages
         public MessageProfile()
         {
             CreateMap<VMMessages, ContactMessages>().ReverseMap();
+            CreateMap<VMMessage, ContactMessages>().ReverseMap();
             CreateMap<VMMessagesAdd, ContactMessages>().ReverseMap();
         }
     }

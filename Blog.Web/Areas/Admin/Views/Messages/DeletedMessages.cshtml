@@ -36,7 +36,7 @@
                             <td>@message.CreatedDate.ToShortDateString()</td>
                             <td>@message.Message</td>
                             <td>
-                                <a class="btn btn-outline-warning" data-id="@message.Id" asp-area="Admin" asp-controller="Message" asp-action="UndoDelete" asp-route-categoryId="@message.Id">
+                                <a class="btn btn-outline-warning" data-id="@message.Id" asp-area="Admin" asp-controller="Messages" asp-action="UndoDelete" asp-route-messageId="@message.Id">
                                     <i class="bx bx-undo"></i>
                                 </a>
                                 @*
