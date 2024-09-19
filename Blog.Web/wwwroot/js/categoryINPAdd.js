@@ -4,7 +4,7 @@
         event.preventDefault();
 
         var addUrl = app.Urls.categoryAddUrl;
-        var redirectUrl = app.Urls.articleAddUrl;
+        var redirectUrl = app.Urls.inpressAddUrl;
 
         var vmCategoryAdd = {
             Name: $("input[id=categoryName]").val()

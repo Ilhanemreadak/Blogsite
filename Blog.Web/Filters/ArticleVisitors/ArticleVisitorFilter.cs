@@ -16,7 +16,7 @@ namespace Blog.Web.Filters.ArticleVisitors
         public Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
             //if (Disable) return next();
-
+                
             List<Visitor> visitors = unitOfWork.GetRepository<Visitor>().GetAllAsync().Result;
 
             string getIp = context.HttpContext.Connection.RemoteIpAddress.MapToIPv4().ToString();

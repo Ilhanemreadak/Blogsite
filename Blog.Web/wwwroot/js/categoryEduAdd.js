@@ -1,10 +1,11 @@
-﻿$(document).ready(function () {
+﻿
+$(document).ready(function () {
 
     $("#btnSave").click(function (event) {
         event.preventDefault();
 
         var addUrl = app.Urls.categoryAddUrl;
-        var redirectUrl = app.Urls.articleAddUrl;
+        var redirectUrl = app.Urls.educationalAddUrl;
 
         var vmCategoryAdd = {
             Name: $("input[id=categoryName]").val()

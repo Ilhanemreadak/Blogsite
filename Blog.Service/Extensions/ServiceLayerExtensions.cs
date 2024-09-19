@@ -25,6 +25,8 @@ namespace Blog.Service.Extensions
             services.AddScoped<ISocialMediaService, SocialMediaService>();
             services.AddScoped<IAboutService, AboutService>();
             services.AddScoped<IMessageService, MessageService>();
+            services.AddScoped<IEducationalService, EducationalService>();
+            services.AddScoped<IInPressService, InPressService>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

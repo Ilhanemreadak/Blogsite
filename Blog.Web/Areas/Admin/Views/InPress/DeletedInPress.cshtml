@@ -1,0 +1,60 @@
+﻿@model List<VMInPress>
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Çöp Kutusu /</span> InPress
+    </h4>
+
+    <div class="card">
+        <div class="table-responsive text-nowrap m-5">
+
+            <table class="table table-bordered" id="inpressTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Başlık</th>
+                        <th>Kategori</th>
+                        <th>Oluşturulma Tarihi</th>
+                        <th>Oluşturan</th>
+                        <th>Durum</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Başlık</th>
+                        <th>Kategori</th>
+                        <th>Oluşturulma Tarihi</th>
+                        <th>Oluşturan</th>
+                        <th>Durum</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </tfoot>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var inpress in Model)
+                    {
+                        <tr name="@inpress.Id">
+                            <td>@inpress.Title</td>
+                            <td>@inpress.Category.Name</td>
+                            <td>@inpress.CreatedDate.ToShortDateString()</td>
+                            <td>@inpress.CreatedBy</td>
+                            <td>@(inpress.IsDeleted ? "Aktif Değil" : "Aktif")</td>
+                            <td>
+                                <a class="btn btn-outline-warning" data-id="@inpress.Id" asp-area="Admin" asp-controller="InPress" asp-action="UndoDelete" asp-route-inpressId="@inpress.Id">
+                                    <i class="bx bx-undo"></i>
+                                </a>
+                                @* <a class="btn btn-outline-danger" data-id=@inpress.Id" asp-area="admin" asp-controller="InPress" asp-action="delete" asp-route-inpressId="@inpress.Id">
+                                    <i class="bx bxs-message-x"></i>
+                                </a> *@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="~/js/inpressIndex.js" type="application/ecmascript"></script>
+}

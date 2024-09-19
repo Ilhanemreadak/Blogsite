@@ -1,23 +1,21 @@
-﻿@model VMArticleAdd
+﻿@model VMEducationalUpdate
 
 <div class="container-xxl flex-grow-1 container-p-y">
 
     <h4 class="fw-bold py-3 mb-4">
-        <span class="text-muted fw-light">Makale Yönetimi / </span>Makale Ekle
+        <span class="text-muted fw-light">Educational Yönetimi / </span>Educational Düzenleme
     </h4>
 
     <div class="row g-6">
         <div class="col-md-12">
             <div class="card">
                 <h5 class="card-header">Makale</h5>
-                <form asp-controller="Article" asp-action="Add" method="post" enctype="multipart/form-data">
+                <form asp-controller="Educational" asp-action="Update" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly"></div>
                     <div class="card-body">
+                        <input type="hidden" asp-for="Id" />
                         <div class="form-group">
                             <label asp-for="CategoryId" for="defaultFormControlInput" class="form-label"> KATEGORI</label>
-                            <a class="btn text-primary float-end" data-bs-toggle="modal" data-bs-target="#exampleModalCenter">
-                                Ekle <i class="bx bx-plus"></i>
-                            </a>
                             <select id="categoryList" class="form-control" asp-for="CategoryId" asp-items="@(new SelectList(Model.Categories,"Id","Name"))"></select>
                             <span asp-validation-for="CategoryId" class="text-danger"></span>
                         </div>
@@ -32,41 +30,21 @@
                             <span asp-validation-for="Content" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <label asp-for="Photo" for="defaultFormControlInput" class="form-label">GORSEL</label>
+                            <label asp-for="Image.FileName" for="defaultFormControlInput" class="form-label d-block">MEVCUT GORSEL</label>
+                            <img style="height:25em; width:25em;" class="m-4" src="~/images/@Model.Image.FileName" alt="@Model.Title" />
+                            
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Photo" for="defaultFormControlInput" class="form-label d-block">GORSEL DEGISTIR</label>
                             <input asp-for="Photo" type="file" accept="image/*" class="form-control mb-3" id="defaultFormControlInput" aria-describedby="defaultFormControlHelp">
                             <span asp-validation-for="Photo" class="text-danger"></span>
                         </div>
+
                         <div class="form-group">
-                            <button type="submit" class="btn btn-primary btn-block">Kaydet</button>
+                            <button type="submit" class="btn btn-primary btn-block">Güncelle</button>
                         </div>
                     </div>
                 </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">Kategori Ekleme</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label class="d-block form-label">Kategori Ismi</label>
-                        <input class="form-control" type="text" id="categoryName" placeholder="Lütfen kategori ismini giriniz." />
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
-                <button type="button" data-keyboard="false" class="btn btn-primary" id="btnSave">Kaydet</button>
             </div>
         </div>
     </div>
@@ -74,9 +52,11 @@
 
 @section Scripts
 {
+    <!-- TinyMCE Kütüphanesi -->
     <script src="https://cdn.tiny.cloud/1/9usx44ku6gm9amfjkdz28a85hg0ekh86l6ltk360aftj3kjv/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script>
+        // TinyMCE'yi Başlat
         tinymce.init({
             selector: '#contentEditor',
             height: 300,
@@ -92,13 +72,4 @@
         });
     </script>
 
-    <script src="~/js/categoryEduAdd.js"></script>
-    <script>
-        var app = app || {};
-        app.Urls = app.Urls || {};
-
-        app.Urls.baseUrl = '@Url.Content("~")';
-        app.Urls.categoryAddUrl = "@(Url.Action("AddWithAjax", "Category"))";
-        app.Urls.articleAddUrl = "@(Url.Action("Add", "Article"))";
-    </script>
 }

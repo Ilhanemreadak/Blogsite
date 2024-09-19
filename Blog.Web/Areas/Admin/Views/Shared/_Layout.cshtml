@@ -99,8 +99,22 @@
 
     <li class="menu-item">
       <a asp-area="Admin" asp-controller="Article" asp-action="Index" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-dock-top"></i>
-        <div class="text-truncate" data-i18n="Article">Makale Yönetimi</div>
+        <i class="menu-icon tf-icons bx bxs-dock-top"></i>
+        <div class="text-truncate" data-i18n="Article">Makale Say. Yönetimi</div>
+      </a>
+    </li>
+    
+    <li class="menu-item">
+      <a asp-area="Admin" asp-controller="Educational" asp-action="Index" class="menu-link">
+        <i class="menu-icon tf-icons bx bxs-bulb"></i>
+        <div class="text-truncate" data-i18n="Article">Eğtim Say. Yönetimi</div>
+      </a>
+    </li>
+    
+    <li class="menu-item">
+      <a asp-area="Admin" asp-controller="InPress" asp-action="Index" class="menu-link">
+        <i class="menu-icon tf-icons bx bxs-news"></i>
+        <div class="text-truncate" data-i18n="Article">Basın Say. Yönetimi</div>
       </a>
     </li>
 
@@ -130,14 +144,14 @@
 
     <li class="menu-item">
       <a asp-area="Admin" asp-controller="User" asp-action="Profile" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-user bx"></i>
+        <i class="menu-icon tf-icons bx bxs-user bx"></i>
         <div class="text-truncate" data-i18n="Basic">Profilim</div>
       </a>
     </li>
 
     <li class="menu-item">
       <a asp-area="Admin" asp-controller="User" asp-action="Index" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-user-circle"></i>
+        <i class="menu-icon tf-icons bx bxs-user-circle"></i>
         <div class="text-truncate" data-i18n="Basic">Kullanıcılar</div>
       </a>
     </li>
@@ -147,50 +161,63 @@
 
     <li class="menu-item">
       <a asp-area="Admin" asp-controller="Messages" asp-action="Index" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-chat"></i>
+        <i class="menu-icon tf-icons bx bxs-chat"></i>
         <div class="text-truncate" data-i18n="Tables">Gelen Kutusu</div>
       </a>
-    </li>
-    
-
-    <!-- Geri Donusum Kutusu -->
-    <li class="menu-header small text-uppercase"><span class="menu-header-text">GERİ DÖNÜŞÜM KUTUSU</span></li>
-    
-    <li class="menu-item">
-      <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bxs-trash-alt"></i>
-        <div class="text-truncate" data-i18n="Dashboards">Çöp Kutuları</div>
-      </a>
-      <ul class="menu-sub">
-        <li class="menu-item">
-          <a asp-area="Admin" asp-controller="Article" asp-action="DeletedArticles" class="menu-link">
-            <div class="text-truncate" data-i18n="Tables">Makale</div>
-          </a>
-        </li>
-        <li class="menu-item">
-           <a asp-area="Admin" asp-controller="Category" asp-action="DeletedCategories" class="menu-link">
-            <div class="text-truncate" data-i18n="Tables">Kategori</div>
-          </a>
-        </li>
-        <li class="menu-item">
-          <a asp-area="Admin" asp-controller="Messages" asp-action="DeletedMessages" class="menu-link">
-            <div class="text-truncate" data-i18n="Tables">Mesajlar</div>
-          </a>
-        </li>
-      </ul>
     </li>
 
     <li class="menu-header small text-uppercase"><span class="menu-header-text">Bağlantılar</span></li>
 
     <li class="menu-item">
         <a asp-area="Home" asp-controller="Home" asp-action="Index" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-home"></i>
+            <i class="menu-icon tf-icons bx bxs-home"></i>
             <div class="text-truncate">Anasayfa</div>
         </a>
     </li>
+
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bxs-trash"></i>
+        <div class="text-truncate" data-i18n="Dashboards">Çöp Kutuları</div>
+      </a>
+      <ul class="menu-sub">
+
+        <li class="menu-item">
+          <a asp-area="Admin" asp-controller="Article" asp-action="DeletedArticles" class="menu-link">
+            <div class="text-truncate" data-i18n="Tables">Makale</div>
+          </a>
+        </li>
+        
+        <li class="menu-item">
+          <a asp-area="Admin" asp-controller="Educational" asp-action="DeletedEducationals" class="menu-link">
+            <div class="text-truncate" data-i18n="Tables">Eğitim</div>
+          </a>
+        </li>
+        
+        <li class="menu-item">
+          <a asp-area="Admin" asp-controller="InPress" asp-action="DeletedInPress" class="menu-link">
+            <div class="text-truncate" data-i18n="Tables">Basın</div>
+          </a>
+        </li>
+
+        <li class="menu-item">
+           <a asp-area="Admin" asp-controller="Category" asp-action="DeletedCategories" class="menu-link">
+            <div class="text-truncate" data-i18n="Tables">Kategori</div>
+          </a>
+        </li>
+
+        <li class="menu-item">
+          <a asp-area="Admin" asp-controller="Messages" asp-action="DeletedMessages" class="menu-link">
+            <div class="text-truncate" data-i18n="Tables">Mesajlar</div>
+          </a>
+        </li>
+
+      </ul>
+    </li>
+
     <li class="menu-item">
         <a asp-area="Admin" asp-controller="Auth" asp-action="Logout" class="menu-link">
-            <i class="menu-icon tf-icons bx bx-log-out"></i>
+            <i class="menu-icon tf-icons bx bxs-log-out"></i>
             <div class="text-truncate">Çıkış Yap</div>
         </a>
     </li>

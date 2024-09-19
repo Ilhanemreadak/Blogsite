@@ -1,16 +1,16 @@
-﻿@model VMArticleAdd
+﻿@model VMInPressAdd
 
 <div class="container-xxl flex-grow-1 container-p-y">
 
     <h4 class="fw-bold py-3 mb-4">
-        <span class="text-muted fw-light">Makale Yönetimi / </span>Makale Ekle
+        <span class="text-muted fw-light">InPress Yönetimi / </span>InPress Ekle
     </h4>
 
     <div class="row g-6">
         <div class="col-md-12">
             <div class="card">
-                <h5 class="card-header">Makale</h5>
-                <form asp-controller="Article" asp-action="Add" method="post" enctype="multipart/form-data">
+                <h5 class="card-header">InPress</h5>
+                <form asp-controller="InPress" asp-action="Add" method="post" enctype="multipart/form-data">
                     <div asp-validation-summary="ModelOnly"></div>
                     <div class="card-body">
                         <div class="form-group">
@@ -74,9 +74,11 @@
 
 @section Scripts
 {
+    <!-- TinyMCE Kütüphanesi -->
     <script src="https://cdn.tiny.cloud/1/9usx44ku6gm9amfjkdz28a85hg0ekh86l6ltk360aftj3kjv/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script>
+        // TinyMCE'yi Başlat
         tinymce.init({
             selector: '#contentEditor',
             height: 300,
@@ -92,13 +94,14 @@
         });
     </script>
 
-    <script src="~/js/categoryEduAdd.js"></script>
+    <!-- Diğer Scriptler -->
+    <script src="~/js/categoryINPAdd.js"></script>
     <script>
         var app = app || {};
         app.Urls = app.Urls || {};
 
         app.Urls.baseUrl = '@Url.Content("~")';
         app.Urls.categoryAddUrl = "@(Url.Action("AddWithAjax", "Category"))";
-        app.Urls.articleAddUrl = "@(Url.Action("Add", "Article"))";
+        app.Urls.inpressAddUrl = "@(Url.Action("Add", "InPress"))";
     </script>
 }

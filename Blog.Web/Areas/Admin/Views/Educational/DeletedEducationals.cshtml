@@ -1,0 +1,60 @@
+﻿@model List<Blog.Entity.ViewModels.Educationals.VMEducational>
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Çöp Kutusu /</span> Educational
+    </h4>
+
+    <div class="card">
+        <div class="table-responsive text-nowrap m-5">
+
+            <table class="table table-bordered" id="educationalsTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Başlık</th>
+                        <th>Kategori</th>
+                        <th>Oluşturulma Tarihi</th>
+                        <th>Oluşturan</th>
+                        <th>Durum</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Başlık</th>
+                        <th>Kategori</th>
+                        <th>Oluşturulma Tarihi</th>
+                        <th>Oluşturan</th>
+                        <th>Durum</th>
+                        <th>İşlemler</th>
+                    </tr>
+                </tfoot>
+                <tbody class="table-border-bottom-0">
+                    @foreach (var educational in Model)
+                    {
+                        <tr name="@educational.Id">
+                            <td>@educational.Title</td>
+                            <td>@educational.Category.Name</td>
+                            <td>@educational.CreatedDate.ToShortDateString()</td>
+                            <td>@educational.CreatedBy</td>
+                            <td>@(educational.IsDeleted ? "Aktif Değil" : "Aktif")</td>
+                            <td>
+                                <a class="btn btn-outline-warning" data-id="@educational.Id" asp-area="Admin" asp-controller="Educational" asp-action="UndoDelete" asp-route-educationalId="@educational.Id">
+                                    <i class="bx bx-undo"></i>
+                                </a>
+                                @* <a class="btn btn-outline-danger" data-id=@educational.Id" asp-area="admin" asp-controller="article" asp-action="delete" asp-route-educationalId="@educational.Id">
+                                    <i class="bx bxs-message-x"></i>
+                                </a> *@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="~/js/educationalIndex.js" type="application/ecmascript"></script>
+}
